@@ -26,9 +26,18 @@
 
 
 #! Real implementation using LLM
-import json
 
 from schemas.models import IntentData
+
+from utils.cache import (
+    save_cache,
+    load_cache
+)
+
+from utils.parser import (
+    clean_json_response
+)
+
 from services.llm_service import ask_llm
 
 
@@ -38,6 +47,19 @@ class IntentAgent:
         self,
         user_input: str
     ):
+
+        cache_key = (
+            user_input
+            .replace(" ", "_")
+            .lower()
+        )
+
+        cached = load_cache(
+            cache_key
+        )
+
+        if cached:
+            return IntentData(**cached)
 
         prompt = f"""
 You are an AI Intent Extraction Agent.
@@ -50,18 +72,6 @@ Rules:
 - duration must be integer days
 - budget must be integer
 - preferences must ALWAYS be a list
-- infer preferences from context if possible
-
-Example:
-{{
-    "destination": "Goa",
-    "duration": 5,
-    "budget": 20000,
-    "preferences": [
-        "beaches",
-        "nightlife"
-    ]
-}}
 
 User Query:
 {user_input}
@@ -69,12 +79,13 @@ User Query:
 
         response = ask_llm(prompt)
 
-        from utils.parser import (
-        clean_json_response
-)
-
         parsed_data = clean_json_response(
             response
+        )
+
+        save_cache(
+            cache_key,
+            parsed_data
         )
 
         return IntentData(**parsed_data)

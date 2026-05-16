@@ -83,6 +83,10 @@ Rules:
 
 Return ONLY valid JSON.
 
+Keep each activity short and concise.
+Maximum 1 sentence per activity.
+Avoid long descriptions.
+
 Required Format:
 
 {{
@@ -108,7 +112,7 @@ Required Format:
 
         from utils.parser import (
         clean_json_response
-)
+        )
 
         parsed_data = clean_json_response(
             response

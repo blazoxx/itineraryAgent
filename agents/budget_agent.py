@@ -96,7 +96,7 @@ Required Format:
 
         from utils.parser import (
         clean_json_response
-)
+        )
 
         parsed_data = clean_json_response(
             response
