@@ -33,3 +33,6 @@ class FinalPlan(BaseModel):
     research: ResearchData
     itinerary: ItineraryData
     budget: BudgetData
+    
+class TravelRequest(BaseModel):
+    user_query: str
