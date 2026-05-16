@@ -810,7 +810,7 @@ def render_example_pills():
 
 def render_input_form():
     st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
-    st.markdown('<div class="input-wrapper">', unsafe_allow_html=True)
+    # st.markdown('<div class="input-wrapper">', unsafe_allow_html=True)
     st.markdown('<label class="input-label">✈️ Where do you want to go?</label>', unsafe_allow_html=True)
 
     user_query = st.text_area(
@@ -939,7 +939,7 @@ def call_backend_api(user_query: str):
 
     # step through first N-1 agents with randomized durations, updating status in-place
     num_pre = len(AGENTS) - 1
-    durations = [random.uniform(0.6, 1.8) for _ in range(num_pre)]
+    durations = [random.uniform(0.5, 1) for _ in range(num_pre)]
 
     for i in range(num_pre):
         # show i as active (completed count = i)

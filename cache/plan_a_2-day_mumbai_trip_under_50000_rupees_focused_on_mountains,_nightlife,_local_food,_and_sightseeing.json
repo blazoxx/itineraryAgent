@@ -1,0 +1,11 @@
+{
+    "destination": "Mumbai",
+    "duration": 2,
+    "budget": 50000,
+    "preferences": [
+        "mountains",
+        "nightlife",
+        "local food",
+        "sightseeing"
+    ]
+}
