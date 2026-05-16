@@ -23,6 +23,7 @@ class ItineraryData(BaseModel):
 class BudgetData(BaseModel):
     hotel: int
     food: int
+    flights: int
     transport: int
     activities: int
     total: int

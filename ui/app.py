@@ -1,6 +1,7 @@
 import re
 import time
 import textwrap
+import random
 
 import requests
 import streamlit as st
@@ -874,11 +875,15 @@ def render_agent_workflow(active_idx=None):
             f'</div>'
         )
 
-    title = (
-        f"AI Agents · Pending ({len(AGENTS)})"
-        if active_idx is None
-        else f"AI Agents Processing · {min(active_idx+1,len(AGENTS))}/{len(AGENTS)}"
-    )
+    if active_idx is None:
+        title = f"AI Agents · Pending ({len(AGENTS)})"
+    else:
+        # completed count should not include the currently active agent
+        if active_idx >= len(AGENTS):
+            completed = len(AGENTS)
+        else:
+            completed = active_idx
+        title = f"AI Agents Processing · {completed}/{len(AGENTS)}"
 
     html = (
         f'<div class="agent-workflow">'
@@ -932,26 +937,26 @@ def call_backend_api(user_query: str):
     with placeholder.container():
         render_agent_workflow(None)
 
-    # step through agents, updating status in-place (do not remove boxes)
-    for i in range(len(AGENTS)):
+    # step through first N-1 agents with randomized durations, updating status in-place
+    num_pre = len(AGENTS) - 1
+    durations = [random.uniform(0.6, 1.8) for _ in range(num_pre)]
+
+    for i in range(num_pre):
+        # show i as active (completed count = i)
         with placeholder.container():
             render_agent_workflow(i)
 
-        # simulate work duration per agent
-        if i == 0:
-            time.sleep(0.8)
-        elif i == 1:
-            time.sleep(1.0)
-        elif i == 2:
-            time.sleep(1.3)
-        elif i == 3:
-            time.sleep(1.6)
-        elif i == 4:
-            time.sleep(0.9)
-        else:
-            time.sleep(0.6)
+        # simulate work duration per agent (randomized)
+        time.sleep(durations[i])
 
-    # do not mark finalizer complete yet — wait for backend response
+        # mark this agent done and move to next (shows completed count = i+1)
+        with placeholder.container():
+            render_agent_workflow(i + 1)
+
+    # now show finalizer as active (index = last)
+    final_idx = len(AGENTS) - 1
+    with placeholder.container():
+        render_agent_workflow(final_idx)
 
     try:
         response = requests.post(
@@ -1145,16 +1150,21 @@ def render_itinerary(data: dict):
 BUDGET_PALETTE = {
     "hotel": ("var(--accent-primary)", "🏨"),
     "accommodation": ("var(--accent-primary)", "🏨"),
+
     "food": ("var(--accent-emerald)", "🍜"),
     "meals": ("var(--accent-emerald)", "🍜"),
-    "transport": ("var(--accent-sunset)", "✈️"),
-    "transportation": ("var(--accent-sunset)", "✈️"),
+
+    "flights": ("#8b5cf6", "🛫"),
+
+    "transport": ("var(--accent-sunset)", "🚌"),
+    "transportation": ("var(--accent-sunset)", "🚌"),
+
     "activities": ("var(--accent-earth)", "🎯"),
     "entertainment": ("var(--accent-earth)", "🎯"),
+
     "misc": ("#ef4444", "🧳"),
     "miscellaneous": ("#ef4444", "🧳"),
 }
-
 
 def _extract_number(value) -> float:
     if isinstance(value, (int, float)):
