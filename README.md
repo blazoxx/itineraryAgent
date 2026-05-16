@@ -173,3 +173,44 @@ Gemini was selected for:
 - structured JSON generation
 - cost efficiency
 - strong reasoning capabilities
+
+# Scalability Considerations
+
+The architecture is designed to support future scaling:
+
+- additional AI agents can be added independently
+- external APIs can be integrated modularly
+- orchestration logic is centralized
+- frontend and backend are decoupled
+- caching system reduces repeated API calls
+
+Potential future upgrades include:
+- WebSocket-based live agent synchronization
+- persistent databases
+- vector memory systems
+- autonomous booking workflows
+
+# Challenges Faced
+
+During development, several engineering challenges were addressed:
+
+- handling inconsistent LLM JSON outputs
+- prompt optimization for structured responses
+- frontend/backend synchronization
+- realistic travel budget estimation
+- API quota limitations
+- workflow orchestration timing
+- graceful fallback handling for malformed responses
+
+# Learnings From The Project
+
+This project provided hands-on experience with:
+
+- AI agent orchestration
+- prompt engineering
+- async backend systems
+- API integration
+- frontend/backend communication
+- structured LLM pipelines
+- production-style debugging
+- modular AI system design
