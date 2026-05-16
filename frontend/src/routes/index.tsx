@@ -5,17 +5,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-/* ============================================================
-   BACKEND CONTRACT — UNCHANGED
-   POST {BACKEND_URL}  body: { user_query: string }
-   Response shape: { intent, research, weather, itinerary, budget }
-   ============================================================ */
 const BACKEND_URL =
   (import.meta.env.VITE_BACKEND_URL as string | undefined) ??
   "http://127.0.0.1:8000/generate-plan";
 
 const EXAMPLES = [
-  "🏯 Japan · 10 days · ¥200k budget",
+  "🏯 Japan · 10 days · ₹200k budget",
   "🏖 Bali · Honeymoon · 7 nights",
   "🗼 Europe · Paris & Rome · 2 weeks",
   "🏔 Patagonia · Trekking · 12 days",
@@ -59,9 +54,6 @@ function extractNumber(value: unknown): number {
   return 0;
 }
 
-/* ============================================================
-   Inline CSS — cinematic dark theme
-   ============================================================ */
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -886,9 +878,6 @@ const SAMPLE_PLAN = {
   ],
 };
 
-/* ============================================================
-   Component
-   ============================================================ */
 function Index() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -934,7 +923,6 @@ function Index() {
     setLoading(true);
     setActiveAgent(0);
 
-    // Cinematic agent stepping while request is in-flight
     const stepper = (async () => {
       for (let i = 0; i < AGENTS.length - 1; i++) {
         setActiveAgent(i);
@@ -984,7 +972,6 @@ function Index() {
     <>
       <style>{CSS}</style>
       <div className="pt-root">
-        {/* HERO */}
         <section className="pt-hero">
           <div className="pt-hero-bg" />
           <div className="pt-hero-grain" />
@@ -1060,7 +1047,6 @@ function Index() {
           </div>
         </section>
 
-        {/* RESULT */}
         <div ref={resultRef}>
           {loading && (
             <section className="pt-section pt-fade-in" id="agents">
@@ -1127,7 +1113,6 @@ function Index() {
           )}
         </div>
 
-        {/* INSPIRATION GALLERY */}
         <section className="pt-section" id="inspiration">
           <SectionHead
             icon="🌅"
@@ -1163,7 +1148,6 @@ function Index() {
           </div>
         </section>
 
-        {/* SAMPLE PLAN PREVIEW */}
         <section className="pt-section" id="sample">
           <SectionHead
             icon="📜"
@@ -1208,7 +1192,6 @@ function Index() {
           </div>
         </section>
 
-        {/* ERROR */}
         {error && (
           <section className="pt-section pt-fade-in">
             <div className="pt-error">{error}</div>
