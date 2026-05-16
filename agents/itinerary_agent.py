@@ -64,7 +64,7 @@ Required Format:
 }}
 """
 
-        response = ask_llm(prompt)
+        response = await ask_llm(prompt)
 
         # print(
         #     "\n[Itinerary Agent Raw Response]\n",

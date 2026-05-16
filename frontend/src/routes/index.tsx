@@ -951,6 +951,13 @@ function Index() {
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
+      if (data && typeof data === "object" && "error" in data) {
+        throw new Error(
+          String(
+            (data as { error?: unknown }).error ?? "Unknown backend error",
+          ),
+        );
+      }
       await stepper;
       setActiveAgent(AGENTS.length);
       await new Promise((r) => setTimeout(r, 400));
