@@ -87,5 +87,20 @@ User Query:
             cache_key,
             parsed_data
         )
+        
+        parsed_data.setdefault(
+            "budget",
+            10000
+        )
+
+        parsed_data.setdefault(
+            "duration",
+            3
+        )
+
+        parsed_data.setdefault(
+            "preferences",
+            []
+        )
 
         return IntentData(**parsed_data)

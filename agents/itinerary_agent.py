@@ -45,7 +45,6 @@ from services.llm_service import (
     ask_llm
 )
 
-
 class ItineraryAgent:
 
     async def generate(
@@ -85,6 +84,7 @@ Return ONLY valid JSON.
 
 Keep each activity short and concise.
 Maximum 1 sentence per activity.
+Maximum 10 words per activity.
 Avoid long descriptions.
 
 Required Format:
