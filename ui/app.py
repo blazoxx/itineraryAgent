@@ -762,10 +762,41 @@ def render_input_form():
 
 
 AGENTS = [
-    ("🧭", "Intent Agent", "Understanding your travel goals & preferences"),
-    ("🔍", "Research Agent", "Fetching destination insights & local tips"),
-    ("📅", "Itinerary Agent", "Crafting your day-by-day plan"),
-    ("💰", "Budget Agent", "Calculating costs & optimizing spend"),
+    (
+        "🧭",
+        "Intent Agent",
+        "Understanding your travel goals & preferences"
+    ),
+
+    (
+        "🔍",
+        "Research Agent",
+        "Fetching destination insights & local tips"
+    ),
+
+    (
+        "📅",
+        "Itinerary Agent",
+        "Crafting your day-by-day plan"
+    ),
+
+    (
+        "💰",
+        "Budget Agent",
+        "Calculating costs & optimizing spend"
+    ),
+
+    (
+        "☁️",
+        "Weather Agent",
+        "Fetching live weather conditions"
+    ),
+
+    (
+        "✨",
+        "Finalizer",
+        "Compiling your personalized travel plan"
+    ),
 ]
 
 
@@ -808,38 +839,94 @@ def render_agent_workflow(active_idx: int):
             unsafe_allow_html=True,
         )
 
-
 def call_backend_api(user_query: str):
+
     placeholder = st.empty()
-    for step_idx in range(len(AGENTS)):
+
+    pre_backend_steps = [
+        0,  # Intent
+        1,  # Research
+        2,  # Itinerary
+        3,  # Budget
+    ]
+
+    for step_idx in pre_backend_steps:
+
         with placeholder.container():
-            render_agent_workflow(step_idx)
-        if step_idx < len(AGENTS) - 1:
-            time.sleep(1.1)
+            render_agent_workflow(step_idx + 1)
+
+        if step_idx == 0:
+            time.sleep(0.7)
+
+        elif step_idx == 1:
+            time.sleep(1.0)
+
+        elif step_idx == 2:
+            time.sleep(1.2)
+
+        elif step_idx == 3:
+            time.sleep(1.5)
+
+    # Show Weather + Finalizer while backend runs
+
+    with placeholder.container():
+        render_agent_workflow(5)
 
     try:
+
         response = requests.post(
             BACKEND_URL,
             json={"user_query": user_query},
             timeout=120,
         )
-        response.raise_for_status()
-        data = response.json()
-        placeholder.empty()
-        return data, None
-    except requests.exceptions.ConnectionError:
-        placeholder.empty()
-        return None, "🔌 Cannot reach the backend. Make sure the FastAPI server is running on `http://127.0.0.1:8000`."
-    except requests.exceptions.Timeout:
-        placeholder.empty()
-        return None, "⏱ The request timed out (120 s). Try a simpler query or check backend performance."
-    except requests.exceptions.HTTPError as error:
-        placeholder.empty()
-        return None, f"🚫 Backend returned HTTP {error.response.status_code}: {error.response.text[:200]}"
-    except Exception as error:
-        placeholder.empty()
-        return None, f"⚠️ Unexpected error: {str(error)}"
 
+        response.raise_for_status()
+
+        data = response.json()
+
+        # Final completion state
+        with placeholder.container():
+            render_agent_workflow(6)
+
+        time.sleep(0.8)
+
+        placeholder.empty()
+
+        return data, None
+
+    except requests.exceptions.ConnectionError:
+
+        placeholder.empty()
+
+        return None, (
+            "🔌 Cannot reach the backend. "
+            "Make sure FastAPI is running."
+        )
+
+    except requests.exceptions.Timeout:
+
+        placeholder.empty()
+
+        return None, (
+            "⏱ Request timed out."
+        )
+
+    except requests.exceptions.HTTPError as error:
+
+        placeholder.empty()
+
+        return None, (
+            f"🚫 Backend returned HTTP "
+            f"{error.response.status_code}"
+        )
+
+    except Exception as error:
+
+        placeholder.empty()
+
+        return None, (
+            f"⚠️ Unexpected error: {str(error)}"
+        )
 
 def section_header(icon: str, label: str, color_class: str = "icon-blue"):
     st.markdown(
@@ -1088,11 +1175,24 @@ def render_budget(data: dict):
             unsafe_allow_html=True,
         )
 
-        days = len(data.get("itinerary", data.get("day_wise_itinerary", [1])))
-        if days and total_value:
-            per_day = total_value / max(days, 1)
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.metric("📊 Per-Day Average", f"₹{per_day:,.0f}")
+        itinerary_data = data.get("itinerary", {})
+        days_data = itinerary_data.get("days", {})
+
+        days = len(days_data)
+
+        if days > 0 and total_value:
+
+            per_day = total_value / days
+
+            st.markdown(
+                "<br>",
+                unsafe_allow_html=True
+            )
+
+        st.metric(
+            "📊 Per-Day Average",
+            f"₹{per_day:,.0f}"
+           )
 
         if items:
             largest_key = max(items, key=lambda key: items[key])
@@ -1225,12 +1325,6 @@ def render_plan(plan: dict):
     render_tips(
         transformed_data
     )
-
-    with st.expander(
-        "🔧 Raw API Response",
-        expanded=False
-    ):
-        st.json(plan)
 
     st.markdown(
         '''

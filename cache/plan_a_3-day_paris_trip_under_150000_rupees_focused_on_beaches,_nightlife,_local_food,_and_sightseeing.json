@@ -1,0 +1,12 @@
+{
+    "destination": "Paris",
+    "duration": 3,
+    "budget": 150000,
+    "currency": "rupees",
+    "preferences": [
+        "beaches",
+        "nightlife",
+        "local food",
+        "sightseeing"
+    ]
+}

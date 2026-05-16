@@ -1,0 +1,11 @@
+{
+    "destination": "Singapore",
+    "duration": 3,
+    "budget": 150000,
+    "preferences": [
+        "beaches",
+        "nightlife",
+        "local food",
+        "sightseeing"
+    ]
+}

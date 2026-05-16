@@ -77,6 +77,7 @@ Rules:
 - Keep calculations concise and realistic.
 - Do not over-explain.
 - Keep total budget within user budget.
+- Avoid unrealistic low transport costs
 
 Required Format:
 
