@@ -59,6 +59,7 @@ Rules:
 - Flights should represent major inter-city or international travel costs
 - Transport should represent local commuting costs
 - Do not over-explain
+- Activities should realistically reflect ticket prices, nightlife, sightseeing, and entertainment costs.
 
 Required Format:
 
