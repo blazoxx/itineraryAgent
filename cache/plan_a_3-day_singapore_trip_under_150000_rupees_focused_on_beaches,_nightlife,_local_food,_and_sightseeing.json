@@ -1,7 +1,8 @@
 {
-    "destination": "Goa",
+    "destination": "Singapore",
     "duration": 3,
-    "budget": 15000,
+    "budget": 150000,
+    "currency": "rupees",
     "preferences": [
         "beaches",
         "nightlife",

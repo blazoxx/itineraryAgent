@@ -1,42 +1,3 @@
-# class ItineraryAgent:
-
-#     async def generate(
-#         self,
-#         intent_data,
-#         research_data
-#     ):
-#         pass
-
-
-#! Dummy implementation for testing purposes
-# from schemas.models import ItineraryData
-
-
-# class ItineraryAgent:
-
-#     async def generate(
-#         self,
-#         intent_data,
-#         research_data
-#     ):
-
-#         return ItineraryData(
-#             days={
-#                 "Day 1": [
-#                     "Arrival",
-#                     "Beach visit"
-#                 ],
-#                 "Day 2": [
-#                     "Fort Aguada",
-#                     "Night market"
-#                 ]
-#             }
-#         )
-        
-#! Real Implementation
-
-import json
-
 from schemas.models import (
     ItineraryData
 )
@@ -105,10 +66,10 @@ Required Format:
 
         response = ask_llm(prompt)
 
-        print(
-            "\n[Itinerary Agent Raw Response]\n",
-            response
-        )
+        # print(
+        #     "\n[Itinerary Agent Raw Response]\n",
+        #     response
+        # )
 
         from utils.parser import (
         clean_json_response
