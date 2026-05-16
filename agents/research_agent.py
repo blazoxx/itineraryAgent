@@ -49,17 +49,18 @@ class ResearchAgent:
         prompt = f"""
 You are a Travel Research Agent.
 
-Research the destination based on the user's travel intent.
+Research the travel destination.
 
 Destination:
 {intent_data.destination}
 
-Preferences:
+User Preferences:
 {intent_data.preferences}
 
 Return ONLY valid JSON.
 
-Required Format:
+Required JSON format:
+
 {{
     "weather": "string",
     "attractions": [
@@ -75,6 +76,11 @@ Required Format:
 """
 
         response = ask_llm(prompt)
+
+        print(
+            "\n[Research Agent Raw Response]\n",
+            response
+        )
 
         cleaned_response = (
             response
