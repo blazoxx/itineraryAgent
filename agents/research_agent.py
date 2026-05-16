@@ -1,35 +1,3 @@
-# class ResearchAgent:
-
-#     async def research(self, intent_data):
-#         pass
-
-#! Dummy implementation for testing purposes
-# from schemas.models import ResearchData
-
-# class ResearchAgent:
-
-#     async def research(
-#         self,
-#         intent_data
-#     ):
-
-#         return ResearchData(
-#             weather="Warm and humid",
-#             attractions=[
-#                 "Baga Beach",
-#                 "Fort Aguada"
-#             ],
-#             best_time_to_visit="November to February",
-#             local_transport=[
-#                 "Scooter",
-#                 "Taxi"
-#             ]
-#         )
-        
-#! Real Implementation
-
-import json
-
 from schemas.models import (
     ResearchData
 )

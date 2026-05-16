@@ -1,33 +1,6 @@
-# class IntentAgent:
-
-#     async def analyze(self, user_input: str):
-#         pass
-
-
-#! Dummy implementation for testing purposes
-# from schemas.models import IntentData
-
-# class IntentAgent:
-
-#     async def analyze(
-#         self,
-#         user_input: str
-#     ):
-
-#         return IntentData(
-#             destination="Goa",
-#             duration=5,
-#             budget=20000,
-#             preferences=[
-#                 "beaches",
-#                 "nightlife"
-#             ]
-#         )
-
-
-#! Real implementation using LLM
-
 from schemas.models import IntentData
+
+from config import USE_CACHE
 
 from utils.cache import (
     save_cache,
@@ -54,13 +27,16 @@ class IntentAgent:
             .lower()
         )
 
-        cached = load_cache(
-            cache_key
-        )
+        if USE_CACHE:
 
-        if cached:
-            return IntentData(**cached)
-
+            cached = load_cache(
+                cache_key
+            )
+        
+            if cached:
+                return IntentData(**cached)
+        
+        
         prompt = f"""
 You are an AI Intent Extraction Agent.
 
@@ -86,6 +62,11 @@ User Query:
         save_cache(
             cache_key,
             parsed_data
+        )
+        
+        parsed_data.setdefault(
+            "destination",
+            "Unknown Destination"
         )
         
         parsed_data.setdefault(
