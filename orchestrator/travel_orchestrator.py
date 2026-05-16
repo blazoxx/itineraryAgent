@@ -48,10 +48,19 @@ class TravelOrchestrator:
         print(
             "[Itinerary Agent] Completed."
         )
+        
+        compact_itinerary = {
+            day: [
+                activity[:60]
+                for activity in activities[:2]
+            ]
+            for day, activities
+            in itinerary_data.days.items()
+        }
 
         budget_data = await self.budget_agent.estimate(
             intent_data,
-            itinerary_data
+            compact_itinerary
         )
 
         print(
