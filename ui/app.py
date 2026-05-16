@@ -7,7 +7,7 @@ import requests
 import streamlit as st
 
 st.set_page_config(
-    page_title="Voyager AI · Travel Planner",
+    page_title="Pātheyātrā AI · Travel Planner",
     page_icon="✈",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -79,7 +79,7 @@ def inject_css():
     }
 
     /* Hero Section */
-    .voyager-hero {
+    .Pātheyātrā-hero {
         text-align: center;
         padding: 4rem 2rem 3rem;
         margin: 0 auto 2rem;
@@ -93,7 +93,7 @@ def inject_css():
         overflow: hidden;
     }
 
-    .voyager-hero::before {
+    .Pātheyātrā-hero::before {
         content: '';
         position: absolute;
         top: -50%;
@@ -105,7 +105,7 @@ def inject_css():
         pointer-events: none;
     }
 
-    .voyager-badge {
+    .Pātheyātrā-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -123,7 +123,7 @@ def inject_css():
         backdrop-filter: blur(10px);
     }
 
-    .voyager-title {
+    .Pātheyātrā-title {
         font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: clamp(2.2rem, 6vw, 3.5rem);
         font-weight: 800;
@@ -133,7 +133,7 @@ def inject_css():
         letter-spacing: -0.02em;
     }
 
-    .voyager-subtitle {
+    .Pātheyātrā-subtitle {
         font-size: 1.1rem;
         color: var(--text-secondary);
         font-weight: 400;
@@ -668,7 +668,7 @@ def inject_css():
     }
 
     /* Footer */
-    .voyager-footer {
+    .Pātheyātrā-footer {
         text-align: center;
         padding: 3rem 0 1rem;
         color: var(--text-muted);
@@ -686,11 +686,11 @@ def inject_css():
             padding: 1.5rem !important;
         }
 
-        .voyager-hero {
+        .Pātheyātrā-hero {
             padding: 2.5rem 1.5rem;
         }
 
-        .voyager-title {
+        .Pātheyātrā-title {
             font-size: clamp(1.6rem, 6vw, 2.5rem);
         }
 
@@ -778,10 +778,10 @@ def inject_css():
 def render_hero():
     st.markdown(
         """
-    <div class="voyager-hero">
-        <div class="voyager-badge">✦ Voyager AI · Smart Travel Planning</div>
-        <h1 class="voyager-title">Your Perfect Journey Awaits</h1>
-        <p class="voyager-subtitle">
+    <div class="Pātheyātrā-hero">
+        <div class="Pātheyātrā-badge">✦ Pātheyātrā AI · Smart Travel Planning</div>
+        <h1 class="Pātheyātrā-title">Your Perfect Journey Awaits</h1>
+        <p class="Pātheyātrā-subtitle">
             Tell us about your dream destination and let our AI agents craft a personalized
             itinerary, budget breakdown, and insider travel tips instantly.
         </p>
@@ -1301,8 +1301,8 @@ def render_plan(plan: dict):
 
     st.markdown(
         '''
-        <div class="voyager-footer">
-            ✦ Powered by Voyager AI · Your Intelligent Travel Companion
+        <div class="Pātheyātrā-footer">
+            ✦ Powered by Pātheyātrā AI · Your Intelligent Travel Companion
         </div>
         ''',
         unsafe_allow_html=True
