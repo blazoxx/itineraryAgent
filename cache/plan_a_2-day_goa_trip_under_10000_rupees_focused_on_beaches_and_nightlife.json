@@ -1,0 +1,9 @@
+{
+    "destination": "Goa",
+    "duration": 2,
+    "budget": 10000,
+    "preferences": [
+        "beaches",
+        "nightlife"
+    ]
+}
