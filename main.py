@@ -9,8 +9,8 @@ async def main():
     orchestrator = TravelOrchestrator()
 
     user_query = (
-    "Plan a 5-day Goa trip under 20000 rupees "
-    "focused on beaches and nightlife"
+        "Plan a 2-day Goa trip under 10000 rupees "
+        "focused on beaches and nightlife"
     )
 
     result = await orchestrator.execute(
