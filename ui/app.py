@@ -939,7 +939,7 @@ def call_backend_api(user_query: str):
 
     # step through first N-1 agents with randomized durations, updating status in-place
     num_pre = len(AGENTS) - 1
-    durations = [random.uniform(0.6, 1.8) for _ in range(num_pre)]
+    durations = [random.uniform(0.5, 1) for _ in range(num_pre)]
 
     for i in range(num_pre):
         # show i as active (completed count = i)

@@ -27,31 +27,62 @@ class IntentAgent:
             .lower()
         )
 
+
         if USE_CACHE:
 
             cached = load_cache(
                 cache_key
             )
-        
+
             if cached:
+
+                if not cached.get("destination"):
+                    cached["destination"] = (
+                        "Unknown Destination"
+                    )
+
+                if not cached.get("duration"):
+                    cached["duration"] = 3
+
+                if not cached.get("budget"):
+                    cached["budget"] = 50000
+
+                if not cached.get("preferences"):
+                    cached["preferences"] = []
+
                 return IntentData(**cached)
-        
-        
+
+
         prompt = f"""
-You are an AI Intent Extraction Agent.
+            You are an AI Intent Extraction Agent.
 
-Extract travel details from the user query.
+            Extract travel details from the user query.
 
-Return ONLY valid JSON.
+            Return ONLY valid JSON.
 
-Rules:
-- duration must be integer days
-- budget must be integer
-- preferences must ALWAYS be a list
+            Rules:
+            - duration must be integer days
+            - budget must be integer
+            - preferences must ALWAYS be a list
+            - destination is REQUIRED
+            - If duration is missing, infer a realistic default
+            - If budget is missing, infer a realistic default
 
-User Query:
-{user_input}
-"""
+            Example:
+            {{
+                "destination": "Goa",
+                "duration": 5,
+                "budget": 20000,
+                "preferences": [
+                    "beaches",
+                    "nightlife"
+                ]
+            }}
+
+            User Query:
+            {user_input}
+            """
+
 
         response = ask_llm(prompt)
 
@@ -59,35 +90,32 @@ User Query:
             response
         )
 
-        save_cache(
-            cache_key,
-            parsed_data
-        )
-        
-        parsed_data.setdefault(
-            "destination",
-            "Unknown Destination"
-        )
-        
-        parsed_data.setdefault(
-            "budget",
-            10000
-        )
 
-        parsed_data.setdefault(
-            "duration",
-            3
-        )
-
-        parsed_data.setdefault(
-            "preferences",
-            []
-        )
-        
         if not parsed_data.get("destination"):
 
             parsed_data["destination"] = (
                 "Unknown Destination"
             )
+
+        if not parsed_data.get("duration"):
+
+            parsed_data["duration"] = 3
+
+        if not parsed_data.get("budget"):
+
+            parsed_data["budget"] = 50000
+
+        if not parsed_data.get("preferences"):
+
+            parsed_data["preferences"] = []
+
+
+        if USE_CACHE:
+
+            save_cache(
+                cache_key,
+                parsed_data
+            )
+
 
         return IntentData(**parsed_data)
