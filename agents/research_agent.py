@@ -43,7 +43,7 @@ Required JSON format:
 }}
 """
 
-        response = ask_llm(prompt)
+        response = await ask_llm(prompt)
 
         # print(
         #     "\n[Research Agent Raw Response]\n",

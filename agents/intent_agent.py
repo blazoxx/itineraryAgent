@@ -84,7 +84,7 @@ class IntentAgent:
             """
 
 
-        response = ask_llm(prompt)
+        response = await ask_llm(prompt)
 
         parsed_data = clean_json_response(
             response
