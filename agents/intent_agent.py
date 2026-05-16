@@ -69,15 +69,12 @@ User Query:
 
         response = ask_llm(prompt)
 
-        cleaned_response = (
-            response
-            .replace("```json", "")
-            .replace("```", "")
-            .strip()
-        )
+        from utils.parser import (
+        clean_json_response
+)
 
-        parsed_data = json.loads(
-            cleaned_response
+        parsed_data = clean_json_response(
+            response
         )
 
         return IntentData(**parsed_data)

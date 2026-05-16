@@ -82,15 +82,12 @@ Required JSON format:
             response
         )
 
-        cleaned_response = (
-            response
-            .replace("```json", "")
-            .replace("```", "")
-            .strip()
-        )
+        from utils.parser import (
+        clean_json_response
+)
 
-        parsed_data = json.loads(
-            cleaned_response
+        parsed_data = clean_json_response(
+            response
         )
 
         return ResearchData(
