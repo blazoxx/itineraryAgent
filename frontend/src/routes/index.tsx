@@ -1000,7 +1000,7 @@ function Index() {
               </span>
             </div>
             <div className="pt-nav-links">
-              <a href="#plan-generation">Agents</a>
+              <a href="#agents">Agents</a>
               <a href="#how">How it works</a>
               <a href="#examples">Examples</a>
             </div>
@@ -1060,9 +1060,10 @@ function Index() {
           </div>
         </section>
 
-        {(loading || error || transformed || plan) && (
-          <section className="pt-section pt-fade-in" id="plan-generation">
-            {loading && (
+        {/* RESULT */}
+        <div ref={resultRef}>
+          {loading && (
+            <section className="pt-section pt-fade-in" id="agents">
               <div className="pt-agents-wrap">
                 <div className="pt-agents-head">
                   <h2 className="pt-agents-title">AI agents at work</h2>
@@ -1099,24 +1100,32 @@ function Index() {
                   );
                 })}
               </div>
-            )}
-
-            {error && (
-              <div className="pt-error" style={{ marginBottom: 24 }}>
-                {error}
+            </section>
+          )}
+          {transformed && <PlanView data={transformed} />}
+          {plan && !transformed && (
+            <section className="pt-section">
+              <div className="pt-error">
+                ⚠️ Backend response missing required data.
               </div>
-            )}
-
-            <div ref={resultRef}>
-              {transformed && <PlanView data={transformed} />}
-              {plan && !transformed && (
-                <div className="pt-error">
-                  ⚠️ We couldn't generate a complete plan right now.
-                </div>
-              )}
-            </div>
-          </section>
-        )}
+              <pre
+                style={{
+                  maxWidth: 860,
+                  margin: "16px auto",
+                  background: "rgba(0,0,0,0.4)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 12,
+                  padding: 20,
+                  overflow: "auto",
+                  color: "var(--text-dim)",
+                  fontSize: 12,
+                }}
+              >
+                {JSON.stringify(plan, null, 2)}
+              </pre>
+            </section>
+          )}
+        </div>
 
         {/* INSPIRATION GALLERY */}
         <section className="pt-section" id="inspiration">
@@ -1199,6 +1208,17 @@ function Index() {
           </div>
         </section>
 
+        {/* ERROR */}
+        {error && (
+          <section className="pt-section pt-fade-in">
+            <div className="pt-error">{error}</div>
+            <div className="pt-info">
+              ℹ️ Make sure your FastAPI backend is running:{" "}
+              <code>uvicorn main:app --host 127.0.0.1 --port 8000</code>
+            </div>
+          </section>
+        )}
+
         <footer className="pt-footer" id="how">
           <div className="pt-footer-cta">
             <div>
@@ -1258,13 +1278,13 @@ function Index() {
               <h5>Agents</h5>
               <ul>
                 <li>
-                  <a href="#plan-generation">Intent · Research</a>
+                  <a href="#agents">Intent · Research</a>
                 </li>
                 <li>
-                  <a href="#plan-generation">Itinerary · Budget</a>
+                  <a href="#agents">Itinerary · Budget</a>
                 </li>
                 <li>
-                  <a href="#plan-generation">Weather · Finalizer</a>
+                  <a href="#agents">Weather · Finalizer</a>
                 </li>
               </ul>
             </div>

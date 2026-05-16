@@ -98,7 +98,7 @@ Fetches live weather data for the selected destination using weather APIs.
 ┌────────────┐    ┌────────────┐
 │Budget Agent│    │Weather Ag. │
 └────────────┘    └────────────┘
-
+```
 
 # Detailed Tech Stack
 
@@ -106,6 +106,12 @@ Fetches live weather data for the selected destination using weather APIs.
 - Streamlit
 - Custom CSS
 - Responsive UI Components
+  
+NOTE: This project includes two frontend options:
+- Streamlit-based UI at `ui/app.py` (quick Python UI)
+- React + Vite frontend in `frontend/` (modern SPA, run with `npm run dev`)
+
+Use the frontend that matches your workflow. The React frontend runs a Vite dev server (default port 8081 in this workspace).
 
 ## Backend
 - FastAPI
@@ -134,6 +140,32 @@ Fetches live weather data for the selected destination using weather APIs.
 - VS Code
 - Python Virtual Environment (venv)
 - Git & GitHub
+
+## Getting Started (local)
+1. Start the FastAPI backend (from project root):
+
+```bash
+uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+2. Choose a frontend:
+- Streamlit UI (Python):
+
+```bash
+python -m pip install -r requirements.txt
+streamlit run ui/app.py
+```
+
+- React + Vite frontend (Node):
+
+```bash
+cd frontend
+npm install
+npm run dev
+# Open http://localhost:8081/ (Vite may pick a different port if 8080/8081 are in use)
+```
+
+Note: The React frontend shows the agent workflow and generated plan together under the hero (center area) by design (Option A placement).
 
 # Design Decisions
 
