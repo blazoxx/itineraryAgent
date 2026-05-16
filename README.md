@@ -134,3 +134,42 @@ Fetches live weather data for the selected destination using weather APIs.
 - VS Code
 - Python Virtual Environment (venv)
 - Git & GitHub
+
+# Design Decisions
+
+## Why Multi-Agent Architecture?
+A modular multi-agent system improves:
+- separation of concerns
+- maintainability
+- scalability
+- independent reasoning workflows
+
+Each agent specializes in a dedicated task rather than relying on one monolithic prompt.
+
+---
+
+## Why FastAPI?
+FastAPI was chosen because it provides:
+- fast async request handling
+- clean API architecture
+- lightweight backend performance
+- easy frontend integration
+
+---
+
+## Why Streamlit?
+Streamlit enabled rapid development of:
+- interactive UI
+- real-time workflow visualization
+- modern frontend experience
+
+without requiring heavy frontend frameworks.
+
+---
+
+## Why Gemini API?
+Gemini was selected for:
+- fast inference speed
+- structured JSON generation
+- cost efficiency
+- strong reasoning capabilities
