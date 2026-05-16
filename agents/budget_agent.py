@@ -79,6 +79,16 @@ Rules:
 - Keep total budget within user budget.
 - Avoid unrealistic low transport costs
 
+Budget Distribution Guidelines:
+
+- Hotel should usually consume 30–40% of total budget
+- Food should usually consume 15–25%
+- Transport should increase significantly for international trips
+- Activities should reflect the user's interests
+- Nightlife and adventure trips should allocate more to activities
+- Budget backpacking trips should reduce hotel costs
+- Luxury trips may increase hotel allocation
+
 Required Format:
 
 {{
