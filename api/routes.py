@@ -18,8 +18,16 @@ async def generate_plan(
     request: TravelRequest
 ):
 
-    result = await orchestrator.execute(
-        request.user_query
-    )
+    try:
 
-    return result
+        result = await orchestrator.execute(
+            request.user_query
+        )
+
+        return result
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }

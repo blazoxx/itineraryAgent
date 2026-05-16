@@ -29,7 +29,6 @@
         
         
 #! Real Implementation
-import json
 
 from schemas.models import (
     BudgetData
@@ -45,7 +44,7 @@ class BudgetAgent:
     async def estimate(
         self,
         intent_data,
-        itinerary_data
+        compact_itinerary
     ):
 
         prompt = f"""
@@ -62,8 +61,8 @@ Duration:
 User Budget:
 {intent_data.budget}
 
-Itinerary:
-{itinerary_data.days}
+Compact Itinerary:
+{compact_itinerary}
 
 Rules:
 - Keep estimates realistic
@@ -75,6 +74,9 @@ Rules:
     - activities
 - Return ONLY valid JSON
 - All values must be integers
+- Keep calculations concise and realistic.
+- Do not over-explain.
+- Keep total budget within user budget.
 
 Required Format:
 
