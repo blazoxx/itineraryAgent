@@ -810,7 +810,7 @@ def render_example_pills():
 
 def render_input_form():
     st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
-    st.markdown('<div class="input-wrapper">', unsafe_allow_html=True)
+    # st.markdown('<div class="input-wrapper">', unsafe_allow_html=True)
     st.markdown('<label class="input-label">✈️ Where do you want to go?</label>', unsafe_allow_html=True)
 
     user_query = st.text_area(
