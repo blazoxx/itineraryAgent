@@ -98,3 +98,39 @@ Fetches live weather data for the selected destination using weather APIs.
 ┌────────────┐    ┌────────────┐
 │Budget Agent│    │Weather Ag. │
 └────────────┘    └────────────┘
+
+
+# Detailed Tech Stack
+
+## Frontend
+- Streamlit
+- Custom CSS
+- Responsive UI Components
+
+## Backend
+- FastAPI
+- Uvicorn
+- Asyncio
+
+## AI & LLM
+- Gemini 2.5 Flash API
+- Prompt Engineering
+- Multi-Agent Orchestration
+
+## Data Validation
+- Pydantic
+
+## APIs
+- Gemini API
+- OpenWeatherMap API
+
+## Utilities
+- Requests
+- JSON
+- Regex
+- Environment Variables (.env)
+
+## Development Tools
+- VS Code
+- Python Virtual Environment (venv)
+- Git & GitHub
