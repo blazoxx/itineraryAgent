@@ -1,5 +1,6 @@
 import re
 import time
+import textwrap
 
 import requests
 import streamlit as st
@@ -18,381 +19,386 @@ def inject_css():
     st.markdown(
         """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
     :root {
-        --bg-base: #090c14;
-        --bg-surface: #0f1320;
-        --bg-elevated: #151b2e;
-        --bg-card: #1a2035;
-        --border: rgba(255,255,255,0.06);
-        --border-glow: rgba(99,179,237,0.25);
-        --accent-blue: #63b3ed;
-        --accent-cyan: #4ecdc4;
-        --accent-amber: #f6ad55;
-        --accent-rose: #fc8181;
-        --accent-violet: #b794f4;
-        --text-primary: #e8eaf0;
-        --text-secondary: #8892a4;
-        --text-muted: #4a5568;
-        --gradient-hero: linear-gradient(135deg, #0d1b3e 0%, #090c14 50%, #0a1628 100%);
-        --shadow-card: 0 8px 32px rgba(0,0,0,0.5);
+        /* Modern light palette */
+        --bg-base: #fafbfc;
+        --bg-surface: #ffffff;
+        --bg-elevated: #f8f9fb;
+        --bg-card: #ffffff;
+        --border: rgba(0,0,0,0.08);
+        --border-light: rgba(0,0,0,0.04);
+
+        /* Modern travel palette */
+        --accent-primary: #00b4d8;
+        --accent-secondary: #0096c7;
+        --accent-earth: #d4a574;
+        --accent-sunset: #f77f00;
+        --accent-emerald: #06a77d;
+
+        /* Text colors */
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #94a3b8;
+
+        --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+        --shadow-md: 0 8px 24px rgba(0,0,0,0.1);
+        --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
         --radius-card: 16px;
-        --radius-sm: 8px;
+        --radius-sm: 10px;
     }
 
     html, body, [data-testid="stAppViewContainer"] {
         background: var(--bg-base) !important;
         color: var(--text-primary) !important;
-        font-family: 'DM Sans', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
     }
 
     [data-testid="stAppViewContainer"] {
-        background: var(--gradient-hero) !important;
-    }
-
-    [data-testid="stAppViewContainer"]::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image:
-            radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 100%),
-            radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.1) 0%, transparent 100%),
-            radial-gradient(1px 1px at 50% 70%, rgba(255,255,255,0.08) 0%, transparent 100%),
-            radial-gradient(1px 1px at 10% 85%, rgba(255,255,255,0.12) 0%, transparent 100%),
-            radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.1) 0%, transparent 100%);
-        pointer-events: none;
-        z-index: 0;
+        background: linear-gradient(135deg, #fafbfc 0%, #f0f4f8 100%) !important;
     }
 
     #MainMenu, footer, header { visibility: hidden; }
     [data-testid="stToolbar"] { display: none; }
-    [data-testid="stSidebar"] { background: var(--bg-surface) !important; }
+    [data-testid="stSidebar"] { background: transparent !important; }
     [data-testid="stDecoration"] { display: none; }
+    
     .block-container {
-        padding: 2rem 3rem 4rem !important;
-        max-width: 1200px !important;
+        padding: 2.5rem 2rem 3.5rem !important;
+        max-width: 1100px !important;
+        margin: 0 auto !important;
     }
 
     h1, h2, h3, h4 {
-        font-family: 'Syne', sans-serif !important;
-        letter-spacing: -0.02em;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        letter-spacing: -0.015em;
+        color: var(--text-primary);
+        font-weight: 700;
     }
 
+    /* Hero Section */
     .voyager-hero {
         text-align: center;
-        padding: 3.5rem 2rem 2rem;
+        padding: 4rem 2rem 3rem;
+        margin: 0 auto 2rem;
+        max-width: 900px;
+        border-radius: var(--radius-card);
+        background: linear-gradient(135deg, rgba(0,180,216,0.08) 0%, rgba(6,167,125,0.08) 100%);
+        border: 1px solid var(--border-light);
+        box-shadow: var(--shadow-md);
+        color: var(--text-primary);
         position: relative;
+        overflow: hidden;
     }
 
-    .voyager-logo {
+    .voyager-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(0,180,216,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .voyager-badge {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        font-family: 'Syne', sans-serif;
+        gap: 8px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 0.75rem;
         font-weight: 700;
-        letter-spacing: 0.25em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--accent-blue);
-        background: rgba(99,179,237,0.08);
-        border: 1px solid rgba(99,179,237,0.2);
-        padding: 6px 16px;
-        border-radius: 100px;
-        margin-bottom: 1.5rem;
+        color: var(--accent-primary);
+        background: rgba(0,180,216,0.1);
+        border: 1px solid rgba(0,180,216,0.2);
+        padding: 7px 16px;
+        border-radius: 999px;
+        margin-bottom: 1.2rem;
+        backdrop-filter: blur(10px);
     }
 
     .voyager-title {
-        font-family: 'Syne', sans-serif;
-        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: clamp(2.2rem, 6vw, 3.5rem);
         font-weight: 800;
         line-height: 1.1;
-        margin: 0 0 1rem;
-        background: linear-gradient(135deg, #e8eaf0 0%, #63b3ed 50%, #4ecdc4 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        margin: 0 0 0.8rem;
+        color: var(--text-primary);
+        letter-spacing: -0.02em;
     }
 
     .voyager-subtitle {
         font-size: 1.1rem;
         color: var(--text-secondary);
-        font-weight: 300;
-        max-width: 520px;
+        font-weight: 400;
+        max-width: 700px;
         margin: 0 auto 2rem;
-        line-height: 1.6;
+        line-height: 1.7;
     }
 
+    /* Input Section */
     .input-wrapper {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border);
-        border-radius: 20px;
+        background: var(--bg-surface);
+        border: 2px solid var(--border-light);
+        border-radius: var(--radius-card);
         padding: 2rem;
-        margin: 0 auto 1.5rem;
-        max-width: 780px;
-        box-shadow: var(--shadow-card), 0 0 60px rgba(99,179,237,0.04);
-        transition: border-color 0.3s ease;
+        margin: 1.5rem auto;
+        max-width: 800px;
+        box-shadow: var(--shadow-md);
+        transition: all 0.3s ease;
     }
 
     .input-wrapper:hover {
-        border-color: rgba(99,179,237,0.15);
+        border-color: var(--accent-primary);
+        box-shadow: 0 12px 32px rgba(0,180,216,0.12);
     }
 
     .input-label {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.7rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.85rem;
         font-weight: 700;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--text-muted);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+        display: block;
     }
 
     [data-testid="stTextArea"] textarea {
-        background: rgba(255,255,255,0.03) !important;
-        border: 1px solid var(--border) !important;
+        background: var(--bg-elevated) !important;
+        border: 1.5px solid var(--border) !important;
         border-radius: var(--radius-sm) !important;
         color: var(--text-primary) !important;
-        font-family: 'DM Sans', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
         font-size: 1rem !important;
-        font-weight: 300 !important;
+        font-weight: 400 !important;
         line-height: 1.6 !important;
-        padding: 1rem !important;
-        resize: none !important;
-        transition: border-color 0.3s !important;
-        caret-color: var(--accent-blue) !important;
+        padding: 1.2rem !important;
+        resize: vertical !important;
+        transition: all 0.2s ease !important;
+        caret-color: var(--accent-primary) !important;
     }
 
     [data-testid="stTextArea"] textarea:focus {
-        border-color: var(--border-glow) !important;
-        box-shadow: 0 0 0 3px rgba(99,179,237,0.08) !important;
+        border-color: var(--accent-primary) !important;
+        box-shadow: 0 0 0 3px rgba(0,180,216,0.1) !important;
     }
 
     [data-testid="stTextArea"] label { display: none !important; }
 
+    /* Example Pills */
     .pill-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 10px;
         justify-content: center;
-        margin-bottom: 2rem;
+        margin: 1.5rem 0;
     }
 
     .pill {
-        background: var(--bg-elevated);
+        background: var(--bg-surface);
         border: 1px solid var(--border);
         color: var(--text-secondary);
-        padding: 6px 14px;
-        border-radius: 100px;
-        font-size: 0.82rem;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.9rem;
         cursor: pointer;
         transition: all 0.2s ease;
-        font-family: 'DM Sans', sans-serif;
-        user-select: none;
     }
 
     .pill:hover {
-        border-color: rgba(99,179,237,0.3);
-        color: var(--accent-blue);
-        background: rgba(99,179,237,0.06);
+        transform: translateY(-2px);
+        color: var(--accent-primary);
+        border-color: var(--accent-primary);
+        box-shadow: 0 4px 12px rgba(0,180,216,0.15);
     }
 
+    /* Buttons */
     [data-testid="stButton"] > button {
-        background: linear-gradient(135deg, #2b6cb0 0%, #2c7a7b 100%) !important;
-        color: #fff !important;
+        background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%) !important;
+        color: white !important;
         border: none !important;
         border-radius: 12px !important;
-        font-family: 'Syne', sans-serif !important;
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.05em !important;
-        padding: 0.75rem 2rem !important;
-        width: 100% !important;
-        transition: all 0.25s ease !important;
-        box-shadow: 0 4px 24px rgba(43,108,176,0.3) !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        padding: 0.95rem 1.8rem !important;
+        width: auto !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 8px 20px rgba(0,180,216,0.25) !important;
         cursor: pointer !important;
     }
 
     [data-testid="stButton"] > button:hover {
         transform: translateY(-2px) !important;
-        box-shadow: 0 8px 32px rgba(43,108,176,0.45) !important;
-        filter: brightness(1.1) !important;
+        box-shadow: 0 12px 28px rgba(0,180,216,0.35) !important;
     }
 
     [data-testid="stButton"] > button:active {
         transform: translateY(0) !important;
     }
 
+    /* Agent Workflow */
     .agent-workflow {
-        background: var(--bg-elevated);
+        background: var(--bg-surface);
         border: 1px solid var(--border);
         border-radius: var(--radius-card);
-        padding: 2rem;
-        max-width: 560px;
+        padding: 1.5rem;
+        max-width: 600px;
         margin: 2rem auto;
+        box-shadow: var(--shadow-md);
     }
 
     .agent-title {
-        font-family: 'Syne', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 1.1rem;
         font-weight: 700;
-        margin-bottom: 1.5rem;
-        text-align: center;
         color: var(--text-primary);
+        margin-bottom: 1.5rem;
     }
 
     .agent-step {
         display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 12px 0;
-        border-bottom: 1px solid var(--border);
-        opacity: 0.35;
-        transition: opacity 0.4s ease;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-light);
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
     }
 
-    .agent-step.active { opacity: 1; }
-    .agent-step.done { opacity: 0.6; }
-    .agent-step:last-child { border-bottom: none; }
+    .agent-step:last-child {
+        border-bottom: none;
+    }
+
+    .agent-step.active {
+        opacity: 1;
+    }
+
+    .agent-step.done {
+        opacity: 0.7;
+    }
 
     .agent-dot {
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: var(--bg-card);
-        border: 1.5px solid var(--border);
+        background: var(--bg-elevated);
+        border: 2px solid var(--border);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.9rem;
         flex-shrink: 0;
+        font-weight: 700;
     }
 
     .agent-dot.spinning {
-        border-top-color: var(--accent-blue);
-        animation: spin 0.9s linear infinite;
-        border-color: var(--border);
+        border-color: var(--accent-primary);
+        animation: pulse 1.2s ease-in-out infinite;
     }
 
     .agent-dot.done-dot {
-        background: rgba(78,205,196,0.15);
-        border-color: var(--accent-cyan);
-        color: var(--accent-cyan);
+        background: rgba(0,180,216,0.1);
+        color: var(--accent-primary);
+        border-color: var(--accent-primary);
     }
 
-    @keyframes spin {
-        to { transform: rotate(360deg); }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
     }
 
-    .agent-info { flex: 1; }
+    .agent-info {
+        flex: 1;
+    }
 
     .agent-name {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.9rem;
-        font-weight: 600;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
         color: var(--text-primary);
     }
 
     .agent-desc {
-        font-size: 0.78rem;
+        font-size: 0.85rem;
         color: var(--text-muted);
-        margin-top: 2px;
+        margin-top: 0.2rem;
     }
 
-    .agent-badge {
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        padding: 2px 8px;
-        border-radius: 4px;
-    }
-
-    .badge-active {
-        background: rgba(99,179,237,0.15);
-        color: var(--accent-blue);
-    }
-
-    .badge-done {
-        background: rgba(78,205,196,0.12);
-        color: var(--accent-cyan);
-    }
-
+    /* Section Headers */
     .section-header {
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin: 2.5rem 0 1.25rem;
+        gap: 14px;
+        margin: 3rem 0 1.5rem;
+        justify-content: center;
     }
 
     .section-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
-        flex-shrink: 0;
+        font-size: 1.4rem;
     }
 
-    .icon-blue { background: rgba(99,179,237,0.12); }
-    .icon-cyan { background: rgba(78,205,196,0.12); }
-    .icon-amber { background: rgba(246,173,85,0.12); }
-    .icon-rose { background: rgba(252,129,129,0.12); }
-    .icon-violet { background: rgba(183,148,244,0.12); }
+    .icon-blue { background: rgba(0,180,216,0.12); }
+    .icon-earth { background: rgba(212,165,116,0.12); }
+    .icon-sunset { background: rgba(247,127,0,0.12); }
+    .icon-emerald { background: rgba(6,167,125,0.12); }
+    .icon-muted { background: rgba(148,163,184,0.12); }
 
     .section-label {
-        font-family: 'Syne', sans-serif;
-        font-size: 1.15rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.3rem;
         font-weight: 700;
         color: var(--text-primary);
     }
 
-    .section-divider {
-        flex: 1;
-        height: 1px;
-        background: var(--border);
+    /* Cards */
+    .dest-card, .attraction-card, .day-card, .budget-card, .total-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-card);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
     }
 
     .dest-card {
-        background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-card);
-        padding: 2rem;
-        position: relative;
-        overflow: hidden;
-        box-shadow: var(--shadow-card);
+        max-width: 700px;
+        margin: 0 auto;
+        border: 2px solid var(--border-light);
     }
 
-    .dest-card::before {
-        content: '';
-        position: absolute;
-        top: -40px;
-        right: -40px;
-        width: 180px;
-        height: 180px;
-        background: radial-gradient(circle, rgba(99,179,237,0.08) 0%, transparent 70%);
-        pointer-events: none;
+    .dest-card:hover {
+        border-color: var(--accent-primary);
+        box-shadow: var(--shadow-md);
     }
 
     .dest-name {
-        font-family: 'Syne', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 2rem;
         font-weight: 800;
-        margin: 0 0 0.5rem;
-        background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent-blue) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
     }
 
     .dest-tagline {
         color: var(--text-secondary);
         font-size: 1rem;
-        font-weight: 300;
+        font-weight: 400;
+        margin-bottom: 1rem;
         line-height: 1.6;
-        margin-bottom: 1.5rem;
     }
 
     .dest-tags {
@@ -402,307 +408,366 @@ def inject_css():
     }
 
     .dest-tag {
-        background: rgba(255,255,255,0.04);
+        background: var(--bg-elevated);
         border: 1px solid var(--border);
         color: var(--text-secondary);
-        padding: 4px 12px;
-        border-radius: 6px;
-        font-size: 0.8rem;
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
     }
 
     .weather-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 12px;
-        margin-top: 0.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        margin: 1.5rem 0;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .weather-card {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.25rem 1rem;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-light);
+        padding: 1.5rem;
         text-align: center;
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-sm);
     }
 
-    .weather-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
-    .weather-val {
-        font-family: 'Syne', sans-serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--text-primary);
-    }
-    .weather-key {
-        font-size: 0.72rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-        margin-top: 4px;
-    }
-
-    .attraction-card {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.25rem;
-        height: 100%;
-        transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .attraction-card:hover {
-        border-color: rgba(99,179,237,0.2);
-        transform: translateY(-2px);
-    }
-
-    .attr-number {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        color: var(--accent-blue);
-        text-transform: uppercase;
+    .weather-icon {
+        font-size: 2rem;
         margin-bottom: 0.5rem;
     }
 
-    .attr-name {
-        font-family: 'Syne', sans-serif;
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 0.4rem;
+    .weather-val {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
         color: var(--text-primary);
     }
 
+    .weather-key {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 0.4rem;
+        font-weight: 500;
+    }
+
+    .attraction-card {
+        max-width: 280px;
+        text-align: center;
+    }
+
+    .attraction-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--accent-primary);
+    }
+
+    .attr-number {
+        color: var(--accent-primary);
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .attr-name {
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
     .attr-desc {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
+        color: var(--text-muted);
+        font-size: 0.9rem;
         line-height: 1.5;
     }
 
     .day-card {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border);
-        border-left: 3px solid var(--accent-blue);
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        position: relative;
-    }
-
-    .day-label {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent-blue);
-        margin-bottom: 0.25rem;
-    }
-
-    .day-title {
-        font-family: 'Syne', sans-serif;
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
+        border-left: 4px solid var(--accent-primary);
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .timeline-item {
         display: flex;
-        gap: 12px;
-        margin-bottom: 0.9rem;
-        align-items: flex-start;
+        gap: 16px;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-light);
     }
 
-    .timeline-time {
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: var(--accent-cyan);
-        min-width: 60px;
-        padding-top: 2px;
-        font-family: 'Syne', sans-serif;
+    .timeline-item:last-child {
+        border-bottom: none;
     }
 
     .timeline-dot {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
+        background: var(--accent-primary);
         border-radius: 50%;
-        background: var(--accent-blue);
+        margin-top: 0.5rem;
         flex-shrink: 0;
-        margin-top: 6px;
-        box-shadow: 0 0 8px rgba(99,179,237,0.5);
+        box-shadow: 0 0 12px rgba(0,180,216,0.3);
     }
 
     .timeline-text {
-        font-size: 0.88rem;
         color: var(--text-secondary);
-        line-height: 1.5;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Budget Section */
+    .budget-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
     }
 
     .budget-card {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.25rem 1.5rem;
-        margin-bottom: 10px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow-sm);
     }
 
     .budget-row {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        margin-bottom: 8px;
+        align-items: center;
+        margin-bottom: 0.75rem;
     }
 
     .budget-label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.88rem;
-        color: var(--text-secondary);
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.95rem;
     }
 
     .budget-amount {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.95rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-weight: 700;
-        color: var(--text-primary);
+        color: var(--accent-primary);
+        font-size: 1rem;
     }
 
     .budget-bar-bg {
-        height: 4px;
-        background: rgba(255,255,255,0.06);
-        border-radius: 2px;
+        width: 100%;
+        height: 6px;
+        background: var(--bg-elevated);
+        border-radius: 999px;
         overflow: hidden;
     }
 
     .budget-bar-fill {
         height: 100%;
-        border-radius: 2px;
-        transition: width 1s ease;
+        border-radius: 999px;
+        transition: width 0.4s ease;
     }
 
     .total-card {
-        background: linear-gradient(135deg, rgba(43,108,176,0.2) 0%, rgba(44,122,123,0.2) 100%);
-        border: 1px solid rgba(99,179,237,0.2);
-        border-radius: 12px;
-        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(0,180,216,0.08) 0%, rgba(6,167,125,0.08) 100%);
+        border: 2px solid var(--border-light);
         text-align: center;
-        margin-top: 1rem;
+        padding: 2rem 1.5rem;
+        height: fit-content;
     }
 
     .total-label {
-        font-size: 0.75rem;
-        letter-spacing: 0.15em;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 600;
         text-transform: uppercase;
-        color: var(--accent-blue);
-        font-family: 'Syne', sans-serif;
+        letter-spacing: 0.05em;
         margin-bottom: 0.5rem;
     }
 
     .total-amount {
-        font-family: 'Syne', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 2.2rem;
         font-weight: 800;
-        background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: var(--accent-primary);
     }
 
     [data-testid="metric-container"] {
-        background: var(--bg-elevated) !important;
-        border: 1px solid var(--border) !important;
-        border-radius: 12px !important;
-        padding: 1rem 1.25rem !important;
-    }
-
-    [data-testid="metric-container"] label {
-        color: var(--text-muted) !important;
-        font-size: 0.72rem !important;
-        font-family: 'Syne', sans-serif !important;
-        letter-spacing: 0.1em !important;
-        text-transform: uppercase !important;
-    }
-
-    [data-testid="metric-container"] [data-testid="stMetricValue"] {
-        color: var(--text-primary) !important;
-        font-family: 'Syne', sans-serif !important;
-        font-size: 1.5rem !important;
-    }
-
-    [data-testid="stTabs"] [role="tablist"] {
         background: var(--bg-surface) !important;
-        border-radius: 10px !important;
-        padding: 4px !important;
-        gap: 4px !important;
-        border-bottom: none !important;
+        border: 1px solid var(--border-light) !important;
+        border-radius: var(--radius-sm) !important;
+        padding: 1.2rem !important;
+    }
+
+    /* Tabs */
+    [data-testid="stTabs"] [role="tablist"] {
+        background: transparent !important;
+        border-bottom: 2px solid var(--border) !important;
     }
 
     [data-testid="stTabs"] [role="tab"] {
-        background: transparent !important;
         color: var(--text-muted) !important;
-        font-family: 'Syne', sans-serif !important;
-        font-size: 0.82rem !important;
         font-weight: 600 !important;
-        letter-spacing: 0.05em !important;
-        border-radius: 7px !important;
-        border: none !important;
-        transition: all 0.2s !important;
     }
 
     [data-testid="stTabs"] [role="tab"][aria-selected="true"] {
-        background: var(--bg-card) !important;
-        color: var(--text-primary) !important;
+        color: var(--accent-primary) !important;
+        border-bottom-color: var(--accent-primary) !important;
     }
 
-    [data-testid="stTabs"] [role="tabpanel"] {
-        padding-top: 1.5rem !important;
-    }
-
-    [data-testid="stExpander"] {
-        background: var(--bg-elevated) !important;
-        border: 1px solid var(--border) !important;
-        border-radius: 12px !important;
-        margin-bottom: 10px !important;
-    }
-
-    [data-testid="stExpander"] summary {
-        color: var(--text-primary) !important;
-        font-family: 'Syne', sans-serif !important;
-        font-weight: 600 !important;
-        padding: 1rem 1.25rem !important;
-    }
-
+    /* Banners */
     .error-banner {
-        background: rgba(252,129,129,0.08);
-        border: 1px solid rgba(252,129,129,0.2);
-        border-radius: 12px;
-        padding: 1.25rem 1.5rem;
-        color: var(--accent-rose);
-        font-size: 0.9rem;
+        background: rgba(239,68,68,0.08);
+        border: 1px solid rgba(239,68,68,0.2);
+        color: #dc2626;
+        padding: 1.2rem;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
         margin: 1rem 0;
     }
 
     .info-banner {
-        background: rgba(99,179,237,0.06);
-        border: 1px solid rgba(99,179,237,0.15);
-        border-radius: 12px;
-        padding: 1rem 1.5rem;
+        background: rgba(0,180,216,0.08);
+        border: 1px solid rgba(0,180,216,0.2);
         color: var(--text-secondary);
-        font-size: 0.88rem;
-        margin: 0.5rem 0;
+        padding: 1rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.95rem;
+        margin: 0.8rem 0;
+        line-height: 1.6;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .info-banner code {
+        background: rgba(0,0,0,0.05);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+    }
 
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--bg-elevated);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-primary);
+    }
+
+    /* Footer */
     .voyager-footer {
         text-align: center;
         padding: 3rem 0 1rem;
         color: var(--text-muted);
-        font-size: 0.78rem;
+        font-size: 0.85rem;
+        margin-top: 2rem;
     }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+        .budget-container {
+            grid-template-columns: 1fr;
+        }
+
+        .block-container {
+            padding: 1.5rem !important;
+        }
+
+        .voyager-hero {
+            padding: 2.5rem 1.5rem;
+        }
+
+        .voyager-title {
+            font-size: clamp(1.6rem, 6vw, 2.5rem);
+        }
+
+        .pill-row {
+            justify-content: center;
+        }
+
+        [data-testid="stButton"] > button {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .weather-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .dest-name {
+            font-size: 1.5rem;
+        }
+
+        .pill {
+            padding: 8px 12px;
+            font-size: 0.8rem;
+        }
+
+        .section-header {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .agent-workflow {
+            padding: 1rem;
+        }
+    }
+
+    /* Loading overlay */
+    .loading-overlay {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+
+    .loading-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-light);
+        padding: 2rem;
+        border-radius: 14px;
+        box-shadow: var(--shadow-md);
+        max-width: 680px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .loading-spinner {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 6px solid rgba(255,255,255,0.06);
+        border-top-color: var(--accent-primary);
+        margin: 0 auto 1rem;
+        animation: spin 1s linear infinite;
+    }
+
+    .completed-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(90deg, rgba(6,167,125,0.12), rgba(0,180,216,0.08));
+        color: var(--text-primary);
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 1px solid var(--border-light);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
     </style>
     """,
         unsafe_allow_html=True,
@@ -713,11 +778,11 @@ def render_hero():
     st.markdown(
         """
     <div class="voyager-hero">
-        <div class="voyager-logo">✦ Voyager AI · Multi-Agent Travel Planner</div>
-        <h1 class="voyager-title">Plan Your Perfect Journey</h1>
+        <div class="voyager-badge">✦ Voyager AI · Smart Travel Planning</div>
+        <h1 class="voyager-title">Your Perfect Journey Awaits</h1>
         <p class="voyager-subtitle">
-            Describe your dream trip and our AI agents will craft a personalized
-            itinerary, budget breakdown, and travel insights — in seconds.
+            Tell us about your dream destination and let our AI agents craft a personalized
+            itinerary, budget breakdown, and insider travel tips instantly.
         </p>
     </div>
     """,
@@ -726,12 +791,12 @@ def render_hero():
 
 
 EXAMPLES = [
-    "🏯 10 days in Japan, ¥200k budget",
-    "🏖 Bali honeymoon, 7 nights",
-    "🗼 Paris & Rome, 2 weeks, €3000",
-    "🏔 Patagonia trekking, 12 days",
-    "🌴 Thailand backpacker, ₹1500",
-    "🏜 Morocco desert, 5 days",
+    "🏯 Japan · 10 days · ¥200k budget",
+    "🏖 Bali · Honeymoon · 7 nights",
+    "🗼 Europe · Paris & Rome · 2 weeks",
+    "🏔 Patagonia · Trekking · 12 days",
+    "🌴 Thailand · Backpacker · ₹50k",
+    "🏜 Morocco · Desert · 5 days",
 ]
 
 
@@ -743,137 +808,152 @@ def render_example_pills():
 
 
 def render_input_form():
-    _, col, _ = st.columns([1, 2.4, 1])
-    with col:
-        st.markdown('<div class="input-wrapper">', unsafe_allow_html=True)
-        st.markdown('<div class="input-label">Where do you want to go?</div>', unsafe_allow_html=True)
+    st.markdown('<div style="text-align: center;">', unsafe_allow_html=True)
+    st.markdown('<div class="input-wrapper">', unsafe_allow_html=True)
+    st.markdown('<label class="input-label">✈️ Where do you want to go?</label>', unsafe_allow_html=True)
 
-        user_query = st.text_area(
-            label="query",
-            placeholder='e.g. "Plan a 7-day trip to Japan in October for 2 people with a ₹3000 budget, including Tokyo, Kyoto, and Osaka."',
-            height=120,
-            key="user_query",
-            label_visibility="collapsed",
-        )
-        st.markdown("&nbsp;", unsafe_allow_html=True)
-        submit = st.button("✦ Generate My Travel Plan", key="submit_btn")
-        st.markdown("</div>", unsafe_allow_html=True)
+    user_query = st.text_area(
+        label="query",
+        placeholder='e.g. "Plan a 7-day trip to Japan in October for 2 people with a ₹80,000 budget, including Tokyo, Kyoto, and Osaka."',
+        height=120,
+        key="user_query",
+        label_visibility="collapsed",
+    )
+    
+    st.markdown("&nbsp;", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 1.2, 1])
+    with col2:
+        submit = st.button("✦ Generate My Plan", key="submit_btn", use_container_width=True)
+    
+    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+    
     return user_query.strip(), submit
 
 
 AGENTS = [
-    (
-        "🧭",
-        "Intent Agent",
-        "Understanding your travel goals & preferences"
-    ),
-
-    (
-        "🔍",
-        "Research Agent",
-        "Fetching destination insights & local tips"
-    ),
-
-    (
-        "📅",
-        "Itinerary Agent",
-        "Crafting your day-by-day plan"
-    ),
-
-    (
-        "💰",
-        "Budget Agent",
-        "Calculating costs & optimizing spend"
-    ),
-
-    (
-        "☁️",
-        "Weather Agent",
-        "Fetching live weather conditions"
-    ),
-
-    (
-        "✨",
-        "Finalizer",
-        "Compiling your personalized travel plan"
-    ),
+    ("🧭", "Intent Agent", "Understanding your travel goals"),
+    ("🔍", "Research Agent", "Fetching destination insights"),
+    ("📅", "Itinerary Agent", "Crafting your day-by-day plan"),
+    ("💰", "Budget Agent", "Calculating costs & optimizing"),
+    ("☁️", "Weather Agent", "Live weather conditions"),
+    ("✨", "Finalizer", "Compiling your travel plan"),
 ]
 
 
-def render_agent_workflow(active_idx: int):
+def render_agent_workflow(active_idx=None):
+    """Render the full list of agent steps.
+
+    If `active_idx` is None, all agents are shown as pending. Otherwise indices < active_idx are shown done,
+    index == active_idx is active, others pending.
+    """
     steps_html = ""
     for index, (icon, name, desc) in enumerate(AGENTS):
-        if index < active_idx:
-            cls = "agent-step done"
-            dot = '<div class="agent-dot done-dot">✓</div>'
-            badge = '<span class="agent-badge badge-done">Done</span>'
-        elif index == active_idx:
-            cls = "agent-step active"
-            dot = '<div class="agent-dot spinning"></div>'
-            badge = '<span class="agent-badge badge-active">Running</span>'
-        else:
+        if active_idx is None:
             cls = "agent-step"
             dot = f'<div class="agent-dot">{icon}</div>'
-            badge = ""
+        else:
+            if index < active_idx:
+                cls = "agent-step done"
+                dot = '<div class="agent-dot done-dot">✓</div>'
+            elif index == active_idx:
+                cls = "agent-step active"
+                dot = '<div class="agent-dot spinning"></div>'
+            else:
+                cls = "agent-step"
+                dot = f'<div class="agent-dot">{icon}</div>'
 
-        steps_html += f"""
-        <div class="{cls}">
-            {dot}
-            <div class="agent-info">
-                <div class="agent-name">{name}</div>
-                <div class="agent-desc">{desc}</div>
-            </div>
-            {badge}
-        </div>
-        """
-
-    _, col, _ = st.columns([1, 1.6, 1])
-    with col:
-        st.markdown(
-            f"""
-        <div class="agent-workflow">
-            <div class="agent-title">AI Agents at Work&nbsp; ·&nbsp; {active_idx}/{len(AGENTS)}</div>
-            {steps_html}
-        </div>
-        """,
-            unsafe_allow_html=True,
+        steps_html += (
+            f'<div class="{cls}">'
+            f'{dot}'
+            f'<div class="agent-info">'
+            f'<div class="agent-name">{name}</div>'
+            f'<div class="agent-desc">{desc}</div>'
+            f'</div>'
+            f'</div>'
         )
 
-def call_backend_api(user_query: str):
+    title = (
+        f"AI Agents · Pending ({len(AGENTS)})"
+        if active_idx is None
+        else f"AI Agents Processing · {min(active_idx+1,len(AGENTS))}/{len(AGENTS)}"
+    )
 
+    html = (
+        f'<div class="agent-workflow">'
+        f'<div class="agent-title">{title}</div>'
+        f'{steps_html}'
+        f'</div>'
+    )
+    st.markdown(textwrap.dedent(html), unsafe_allow_html=True)
+
+
+def render_agent_loading(active_idx: int):
+    """Show a focused loading card for the currently active agent."""
+    if active_idx < 0 or active_idx >= len(AGENTS):
+        active_idx = 0
+    icon, name, desc = AGENTS[active_idx]
+
+    html = (
+        '<div class="loading-overlay">'
+        '<div class="loading-card">'
+        '<div class="loading-spinner"></div>'
+        f'<div style="font-size:1.25rem;font-weight:800;color:var(--text-primary);margin-bottom:6px;">{name} — Working</div>'
+        f'<div style="color:var(--text-muted);margin-bottom:12px;">{desc}</div>'
+        '<div style="color:var(--text-secondary);font-size:0.95rem;">Please wait while our agents craft your personalized plan...</div>'
+        '</div>'
+        '</div>'
+    )
+    st.markdown(textwrap.dedent(html), unsafe_allow_html=True)
+
+
+def render_agent_completed(agent_idx: int):
+    """Show a concise completed badge for an agent."""
+    if agent_idx < 0 or agent_idx >= len(AGENTS):
+        agent_idx = 0
+    icon, name, desc = AGENTS[agent_idx]
+
+    html = (
+        '<div class="loading-overlay">'
+        '<div class="loading-card">'
+        f'<div class="completed-badge">✅ {name} Completed</div>'
+        f'<div style="margin-top:12px;color:var(--text-muted);">{desc}</div>'
+        '</div>'
+        '</div>'
+    )
+    st.markdown(textwrap.dedent(html), unsafe_allow_html=True)
+
+
+def call_backend_api(user_query: str):
     placeholder = st.empty()
 
-    pre_backend_steps = [
-        0,  # Intent
-        1,  # Research
-        2,  # Itinerary
-        3,  # Budget
-    ]
-
-    for step_idx in pre_backend_steps:
-
-        with placeholder.container():
-            render_agent_workflow(step_idx + 1)
-
-        if step_idx == 0:
-            time.sleep(0.7)
-
-        elif step_idx == 1:
-            time.sleep(1.0)
-
-        elif step_idx == 2:
-            time.sleep(1.2)
-
-        elif step_idx == 3:
-            time.sleep(1.5)
-
-    # Show Weather + Finalizer while backend runs
-
+    # reveal all agents as pending
     with placeholder.container():
-        render_agent_workflow(5)
+        render_agent_workflow(None)
+
+    # step through agents, updating status in-place (do not remove boxes)
+    for i in range(len(AGENTS)):
+        with placeholder.container():
+            render_agent_workflow(i)
+
+        # simulate work duration per agent
+        if i == 0:
+            time.sleep(0.8)
+        elif i == 1:
+            time.sleep(1.0)
+        elif i == 2:
+            time.sleep(1.3)
+        elif i == 3:
+            time.sleep(1.6)
+        elif i == 4:
+            time.sleep(0.9)
+        else:
+            time.sleep(0.6)
+
+    # do not mark finalizer complete yet — wait for backend response
 
     try:
-
         response = requests.post(
             BACKEND_URL,
             json={"user_query": user_query},
@@ -881,52 +961,32 @@ def call_backend_api(user_query: str):
         )
 
         response.raise_for_status()
-
         data = response.json()
 
-        # Final completion state
         with placeholder.container():
             render_agent_workflow(6)
 
         time.sleep(0.8)
-
         placeholder.empty()
 
         return data, None
 
     except requests.exceptions.ConnectionError:
-
         placeholder.empty()
-
-        return None, (
-            "🔌 Cannot reach the backend. "
-            "Make sure FastAPI is running."
-        )
+        return None, "🔌 Cannot reach the backend. Make sure FastAPI is running."
 
     except requests.exceptions.Timeout:
-
         placeholder.empty()
-
-        return None, (
-            "⏱ Request timed out."
-        )
+        return None, "⏱ Request timed out. Please try again."
 
     except requests.exceptions.HTTPError as error:
-
         placeholder.empty()
-
-        return None, (
-            f"🚫 Backend returned HTTP "
-            f"{error.response.status_code}"
-        )
+        return None, f"🚫 Backend error: HTTP {error.response.status_code}"
 
     except Exception as error:
-
         placeholder.empty()
+        return None, f"⚠️ Error: {str(error)}"
 
-        return None, (
-            f"⚠️ Unexpected error: {str(error)}"
-        )
 
 def section_header(icon: str, label: str, color_class: str = "icon-blue"):
     st.markdown(
@@ -934,7 +994,6 @@ def section_header(icon: str, label: str, color_class: str = "icon-blue"):
     <div class="section-header">
         <div class="section-icon {color_class}">{icon}</div>
         <span class="section-label">{label}</span>
-        <div class="section-divider"></div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -971,7 +1030,7 @@ def render_destination(data: dict):
         st.markdown("<br>", unsafe_allow_html=True)
         metrics = st.columns(3)
         if best:
-            metrics[0].metric("📅 Best Time to Visit", best)
+            metrics[0].metric("📅 Best Time", best)
         if language:
             metrics[1].metric("🗣 Language", language)
         if currency:
@@ -983,7 +1042,7 @@ def render_weather(data: dict):
     if not weather:
         return
 
-    section_header("🌤", "Weather & Climate", "icon-cyan")
+    section_header("🌤", "Weather & Climate", "icon-emerald")
 
     temperature = weather.get("temperature", weather.get("avg_temperature", "—"))
     condition = weather.get("condition", weather.get("description", "—"))
@@ -1021,7 +1080,7 @@ def render_attractions(data: dict):
     if not attractions:
         return
 
-    section_header("🏛", "Top Attractions", "icon-violet")
+    section_header("🏛", "Top Attractions", "icon-sunset")
 
     cols_per_row = 3
     for index in range(0, len(attractions), cols_per_row):
@@ -1053,7 +1112,6 @@ def render_attractions(data: dict):
 
 
 def render_itinerary(data: dict):
-
     itinerary = data.get("itinerary", {})
 
     if not itinerary:
@@ -1064,54 +1122,37 @@ def render_itinerary(data: dict):
     if not days_data:
         return
 
-    section_header(
-        "📅",
-        "Day-by-Day Itinerary",
-        "icon-amber"
-    )
+    section_header("📅", "Day-by-Day Itinerary", "icon-earth")
 
     for day_name, activities in days_data.items():
-
-        with st.expander(
-            day_name,
-            expanded=True
-        ):
-
-            st.markdown(
-                '<div class="day-card">',
-                unsafe_allow_html=True
-            )
+        with st.expander(day_name, expanded=True):
+            st.markdown('<div class="day-card">', unsafe_allow_html=True)
 
             for activity in activities:
-
                 st.markdown(
                     f"""
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
-                        <div class="timeline-text">
-                            {activity}
-                        </div>
+                        <div class="timeline-text">{activity}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
-            st.markdown(
-                "</div>",
-                unsafe_allow_html=True
-            )
+            st.markdown("</div>", unsafe_allow_html=True)
+
 
 BUDGET_PALETTE = {
-    "hotel": ("#63b3ed", "🏨"),
-    "accommodation": ("#63b3ed", "🏨"),
-    "food": ("#4ecdc4", "🍜"),
-    "meals": ("#4ecdc4", "🍜"),
-    "transport": ("#f6ad55", "✈️"),
-    "transportation": ("#f6ad55", "✈️"),
-    "activities": ("#b794f4", "🎯"),
-    "entertainment": ("#b794f4", "🎯"),
-    "misc": ("#fc8181", "🧳"),
-    "miscellaneous": ("#fc8181", "🧳"),
+    "hotel": ("var(--accent-primary)", "🏨"),
+    "accommodation": ("var(--accent-primary)", "🏨"),
+    "food": ("var(--accent-emerald)", "🍜"),
+    "meals": ("var(--accent-emerald)", "🍜"),
+    "transport": ("var(--accent-sunset)", "✈️"),
+    "transportation": ("var(--accent-sunset)", "✈️"),
+    "activities": ("var(--accent-earth)", "🎯"),
+    "entertainment": ("var(--accent-earth)", "🎯"),
+    "misc": ("#ef4444", "🧳"),
+    "miscellaneous": ("#ef4444", "🧳"),
 }
 
 
@@ -1130,7 +1171,7 @@ def render_budget(data: dict):
     if not budget:
         return
 
-    section_header("💰", "Budget Breakdown", "icon-amber")
+    section_header("💰", "Budget Breakdown", "icon-sunset")
 
     items = {}
     total_value = 0.0
@@ -1143,62 +1184,58 @@ def render_budget(data: dict):
     if not total_value and items:
         total_value = sum(items.values())
 
-    col1, col2 = st.columns([1.6, 1])
+    st.markdown('<div class="budget-container">', unsafe_allow_html=True)
 
-    with col1:
-        for key, amount in items.items():
-            pct = amount / total_value * 100 if total_value else 0
-            color, icon = BUDGET_PALETTE.get(key.lower(), ("#8892a4", "•"))
-            st.markdown(
-                f"""
-            <div class="budget-card">
-                <div class="budget-row">
-                    <div class="budget-label">{icon} {key.replace('_', ' ').title()}</div>
-                    <div class="budget-amount">₹{amount:,.0f}</div>
-                </div>
-                <div class="budget-bar-bg">
-                    <div class="budget-bar-fill" style="width:{pct:.1f}%; background:{color};"></div>
-                </div>
-            </div>
-            """,
-                unsafe_allow_html=True,
-            )
-
-    with col2:
+    # Left column - items
+    st.markdown('<div style="grid-column: 1;">', unsafe_allow_html=True)
+    for key, amount in items.items():
+        pct = amount / total_value * 100 if total_value else 0
+        color, icon = BUDGET_PALETTE.get(key.lower(), ("var(--text-muted)", "•"))
         st.markdown(
             f"""
-        <div class="total-card">
-            <div class="total-label">Estimated Total</div>
-            <div class="total-amount">₹{total_value:,.0f}</div>
+        <div class="budget-card">
+            <div class="budget-row">
+                <div class="budget-label">{icon} {key.replace('_', ' ').title()}</div>
+                <div class="budget-amount">₹{amount:,.0f}</div>
+            </div>
+            <div class="budget-bar-bg">
+                <div class="budget-bar-fill" style="width:{pct:.1f}%; background:{color};"></div>
+            </div>
         </div>
         """,
             unsafe_allow_html=True,
         )
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        itinerary_data = data.get("itinerary", {})
-        days_data = itinerary_data.get("days", {})
+    # Right column - total
+    st.markdown('<div style="grid-column: 2;">', unsafe_allow_html=True)
+    st.markdown(
+        f"""
+    <div class="total-card">
+        <div class="total-label">Estimated Total</div>
+        <div class="total-amount">₹{total_value:,.0f}</div>
+    </div>
+    """,
+        unsafe_allow_html=True,
+    )
 
-        days = len(days_data)
+    itinerary_data = data.get("itinerary", {})
+    days_data = itinerary_data.get("days", {})
+    days = len(days_data)
 
-        if days > 0 and total_value:
+    if days > 0 and total_value:
+        per_day = total_value / days
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.metric("📊 Per-Day Average", f"₹{per_day:,.0f}")
 
-            per_day = total_value / days
+    if items:
+        largest_key = max(items, key=lambda key: items[key])
+        pct_str = f"{items[largest_key] / total_value * 100:.0f}%" if total_value else "—"
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.metric("🔺 Biggest Spend", f"{largest_key.title()} ({pct_str})")
 
-            st.markdown(
-                "<br>",
-                unsafe_allow_html=True
-            )
-
-        st.metric(
-            "📊 Per-Day Average",
-            f"₹{per_day:,.0f}"
-           )
-
-        if items:
-            largest_key = max(items, key=lambda key: items[key])
-            pct_str = f"{items[largest_key] / total_value * 100:.0f}%" if total_value else "—"
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.metric("🔺 Biggest Spend", f"{largest_key.title()} ({pct_str})")
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 def render_tips(data: dict):
@@ -1206,7 +1243,7 @@ def render_tips(data: dict):
     if not tips:
         return
 
-    section_header("💡", "Travel Tips & Essentials", "icon-cyan")
+    section_header("💡", "Travel Tips & Essentials", "icon-muted")
     if isinstance(tips, list):
         for index, tip in enumerate(tips):
             icon = ["🛂", "💊", "📱", "🔌", "💬", "🏧", "🧥", "🛡"][index % 8]
@@ -1215,126 +1252,53 @@ def render_tips(data: dict):
     elif isinstance(tips, str):
         st.markdown(f'<div class="info-banner">💡 {tips}</div>', unsafe_allow_html=True)
 
+
 def render_plan(plan: dict):
-
     if not isinstance(plan, dict):
-
-        st.markdown(
-            '''
-            <div class="error-banner">
-                ⚠️ Invalid backend response.
-            </div>
-            ''',
-            unsafe_allow_html=True
-        )
-
+        st.markdown('<div class="error-banner">⚠️ Invalid backend response.</div>', unsafe_allow_html=True)
         return
 
     if "error" in plan:
-
-        st.markdown(
-            f'''
-            <div class="error-banner">
-                ⚠️ {plan["error"]}
-            </div>
-            ''',
-            unsafe_allow_html=True
-        )
-
+        st.markdown(f'<div class="error-banner">⚠️ {plan["error"]}</div>', unsafe_allow_html=True)
         return
 
     if "intent" not in plan:
-
-        st.markdown(
-            '''
-            <div class="error-banner">
-                ⚠️ Backend response missing required data.
-            </div>
-            ''',
-            unsafe_allow_html=True
-        )
-
+        st.markdown('<div class="error-banner">⚠️ Backend response missing required data.</div>', unsafe_allow_html=True)
         st.json(plan)
-
         return
 
     transformed_data = {
-
         "destination_overview": {
             "name": plan["intent"]["destination"],
             "description": plan["research"]["weather"],
             "tags": plan["intent"]["preferences"],
             "best_time": plan["research"]["best_time_to_visit"],
         },
-
-        "weather": plan.get(
-            "weather",
-            {}
-        ),
-
-        "attractions": plan[
-            "research"
-        ].get(
-            "attractions",
-            []
-        ),
-
-        "itinerary": plan.get(
-            "itinerary",
-            {}
-        ),
-
-        "budget_breakdown": plan.get(
-            "budget",
-            {}
-        ),
-
-        "travel_tips": plan[
-            "research"
-        ].get(
-            "local_transport",
-            []
-        )
+        "weather": plan.get("weather", {}),
+        "attractions": plan["research"].get("attractions", []),
+        "itinerary": plan.get("itinerary", {}),
+        "budget_breakdown": plan.get("budget", {}),
+        "travel_tips": plan["research"].get("local_transport", [])
     }
 
-    st.markdown(
-        "<br>",
-        unsafe_allow_html=True
-    )
-
-    render_destination(
-        transformed_data
-    )
-
-    render_weather(
-        transformed_data
-    )
-
-    render_attractions(
-        transformed_data
-    )
-
-    render_itinerary(
-        transformed_data
-    )
-
-    render_budget(
-        transformed_data
-    )
-
-    render_tips(
-        transformed_data
-    )
+    st.markdown("<br>", unsafe_allow_html=True)
+    render_destination(transformed_data)
+    render_weather(transformed_data)
+    render_attractions(transformed_data)
+    render_itinerary(transformed_data)
+    render_budget(transformed_data)
+    render_tips(transformed_data)
 
     st.markdown(
         '''
         <div class="voyager-footer">
-            Powered by Voyager AI · Multi-Agent Travel Planning
+            ✦ Powered by Voyager AI · Your Intelligent Travel Companion
         </div>
         ''',
         unsafe_allow_html=True
     )
-    
+
+
 def main():
     inject_css()
     render_hero()
@@ -1355,9 +1319,7 @@ def main():
                 """
             <div class="info-banner">
                 ℹ️ Make sure your FastAPI backend is running:<br>
-                <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">
-                    uvicorn main:app --host 127.0.0.1 --port 8000
-                </code>
+                <code>uvicorn main:app --host 127.0.0.1 --port 8000</code>
             </div>
             """,
                 unsafe_allow_html=True,
@@ -1372,8 +1334,8 @@ def main():
     else:
         st.markdown(
             """
-        <div style="text-align:center; padding: 2rem 0; color: #4a5568; font-size: 0.88rem;">
-            ↑ Enter your trip details above to get started
+        <div style="text-align:center; padding: 3rem 0; color: #94a3b8; font-size: 1rem;">
+            ↑ Describe your dream trip above to get started
         </div>
         """,
             unsafe_allow_html=True,

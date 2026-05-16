@@ -1,1 +1,1 @@
-USE_CACHE = False
+USE_CACHE = True

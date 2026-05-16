@@ -83,5 +83,11 @@ User Query:
             "preferences",
             []
         )
+        
+        if not parsed_data.get("destination"):
+
+            parsed_data["destination"] = (
+                "Unknown Destination"
+            )
 
         return IntentData(**parsed_data)

@@ -35,7 +35,9 @@ Compact Itinerary:
 
 Rules:
 - Keep estimates realistic
-- Stay near the user's budget
+- Stay reasonably close to the user's budget
+- It is acceptable to remain under budget
+- Avoid unnecessarily exhausting the full budget
 - Include:
     - hotel
     - food
@@ -43,20 +45,8 @@ Rules:
     - activities
 - Return ONLY valid JSON
 - All values must be integers
-- Keep calculations concise and realistic.
-- Do not over-explain.
-- Keep total budget within user budget.
+- Keep calculations concise
 - Avoid unrealistic low transport costs
-
-Budget Distribution Guidelines:
-
-- Hotel should usually consume 30–40% of total budget
-- Food should usually consume 15–25%
-- Transport should increase significantly for international trips
-- Activities should reflect the user's interests
-- Nightlife and adventure trips should allocate more to activities
-- Budget backpacking trips should reduce hotel costs
-- Luxury trips may increase hotel allocation
 
 Required Format:
 
@@ -71,10 +61,10 @@ Required Format:
 
         response = ask_llm(prompt)
 
-        print(
-            "\n[Budget Agent Raw Response]\n",
-            response
-        )
+        # print(
+        #     "\n[Budget Agent Raw Response]\n",
+        #     response
+        # )
 
         from utils.parser import (
         clean_json_response
