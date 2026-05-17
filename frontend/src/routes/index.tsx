@@ -1113,6 +1113,21 @@ function Index() {
           )}
         </div>
 
+        {error && (
+          <section className="pt-section pt-fade-in" id="plan-generation">
+            <SectionHead
+              icon="✨"
+              title="Plan generation"
+              sub="Option A · live agents and final result"
+            />
+            <div className="pt-error">{error}</div>
+            <div className="pt-info">
+              ℹ️ Make sure your FastAPI backend is running:{" "}
+              <code>uvicorn main:app --host 127.0.0.1 --port 8000</code>
+            </div>
+          </section>
+        )}
+
         <section className="pt-section" id="inspiration">
           <SectionHead
             icon="🌅"
@@ -1192,15 +1207,7 @@ function Index() {
           </div>
         </section>
 
-        {error && (
-          <section className="pt-section pt-fade-in">
-            <div className="pt-error">{error}</div>
-            <div className="pt-info">
-              ℹ️ Make sure your FastAPI backend is running:{" "}
-              <code>uvicorn main:app --host 127.0.0.1 --port 8000</code>
-            </div>
-          </section>
-        )}
+        {/* error moved to the Plan generation section above */}
 
         <footer className="pt-footer" id="how">
           <div className="pt-footer-cta">
