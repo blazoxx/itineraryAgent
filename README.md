@@ -99,10 +99,11 @@ Fetches live weather data for the selected destination using weather APIs.
 
 ---
 
-## Japan Travel Plan Example
+## Japan Travel Plan Example(concise version)
 
 ![Japan Trip](assets/screenshots/example_output.png)
 
+Note: Original big output in assets/screenshots/
 ---
 
 ## Budget Breakdown
