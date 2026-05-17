@@ -248,3 +248,27 @@ This project provided hands-on experience with:
 - structured LLM pipelines
 - production-style debugging
 - modular AI system design
+
+# Screenshots
+
+## Homepage
+
+![Homepage](assets/screenshots/hero_section.png)
+
+---
+
+## AI Agent Workflow
+
+![Workflow](assets/screenshots/agents_working.png)
+
+---
+
+## Japan Travel Plan Example
+
+![Japan Trip](assets/screenshots/example_output.png)
+
+---
+
+## Budget Breakdown
+
+![Budget](assets/screenshots/budget_breakdown.png)
