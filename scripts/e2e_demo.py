@@ -3,16 +3,12 @@ import json
 import sys
 from pathlib import Path
 
-# Ensure project root is on sys.path so subpackage imports work when running
-# this script directly (fixes ModuleNotFoundError: No module named 'orchestrator').
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from orchestrator.travel_orchestrator import TravelOrchestrator
 
-# Lightweight demo that uses the real services if available. If you are
-# offline or want to avoid external calls, set the `USE_MOCKS` flag below.
 USE_MOCKS = True
 
 
@@ -20,7 +16,6 @@ async def main():
     orchestrator = TravelOrchestrator()
 
     if USE_MOCKS:
-        # Monkeypatch agent-level functions (simple assignment)
         import agents.intent_agent as intent_mod
         import agents.research_agent as research_mod
         import agents.itinerary_agent as itin_mod
@@ -50,7 +45,6 @@ async def main():
 
     result = await orchestrator.execute("plan a 3 day trip to goa focused on beaches and nightlife")
 
-    # Convert pydantic models into serializable dicts where needed
     def serialize(obj):
         try:
             return obj.model_dump()

@@ -1118,7 +1118,7 @@ function Index() {
             <SectionHead
               icon="✨"
               title="Plan generation"
-              sub="Option A · live agents and final result"
+              sub="Live agents and final result"
             />
             <div className="pt-error">{error}</div>
             <div className="pt-info">
