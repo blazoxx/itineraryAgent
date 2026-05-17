@@ -83,31 +83,31 @@ Fetches live weather data for the selected destination using weather APIs.
 
 # System Architecture
 
-```text
-                ┌────────────────────┐
-                │   React UI (Vite)  │
-                └─────────┬──────────┘
-                          │
-                          ▼
-                ┌────────────────────┐
-                │    FastAPI API     │
-                └─────────┬──────────┘
-                          │
-                          ▼
-                ┌────────────────────┐
-                │ Travel Orchestrator│
-                └─────────┬──────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      ▼                   ▼                   ▼
-┌────────────┐    ┌────────────┐    ┌────────────┐
-│Intent Agent│    │Research Ag.│    │Itinerary Ag│
-└────────────┘    └────────────┘    └────────────┘
-      ▼                   ▼                   ▼
-┌────────────┐    ┌────────────┐
-│Budget Agent│    │Weather Ag. │
-└────────────┘    └────────────┘
-```
+![Architecture](assets/pātheyātrā_ai_architecture.png)
+
+# Screenshots
+
+## Homepage
+
+![Homepage](assets/screenshots/hero_section.png)
+
+---
+
+## AI Agent Workflow
+
+![Workflow](assets/screenshots/agents_working.png)
+
+---
+
+## Japan Travel Plan Example
+
+![Japan Trip](assets/screenshots/example_output.png)
+
+---
+
+## Budget Breakdown
+
+![Budget](assets/screenshots/budget_breakdown.png)
 
 # Detailed Tech Stack
 
@@ -169,8 +169,6 @@ npm install
 npm run dev
 # Open http://localhost:8081/ (Vite may pick a different port if 8080/8081 are in use)
 ```
-
-Note: The React frontend shows the agent workflow and generated plan together under the hero (center area) by design (Option A placement).
 
 # Design Decisions
 
@@ -249,30 +247,68 @@ This project provided hands-on experience with:
 - production-style debugging
 - modular AI system design
 
-# Screenshots
+---
 
-## Homepage
+## Current repository status (quick summary)
 
-![Homepage](assets/screenshots/hero_section.png)
+- Streamlit UI removed and dependency dropped from `requirements.txt`.
+- Frontend UI primitives archived under `frontend/src/components_archived/ui/` and original files removed from `frontend/src/components/ui/` (archive-first cleanup).
+- Favicon added and wired to the app: `frontend/src/assets/favicon.png`.
+- Removed build/deploy caches: `.vite/` and `.wrangler/` from the frontend (cleaned).
+- `frontend/package-lock.json` remains in the repo (present). `node_modules/` exists under `frontend/`.
+- A Python virtual environment (`venv/`) exists in the workspace — do not delete unless you want to recreate it.
+- Docker compose is available (`docker-compose.yml`) for running frontend/backend containers.
+- Tests exist under the `tests/` folder (`pytest`), and example scripts live in `scripts/`.
 
 ---
 
-## AI Agent Workflow
+## Quick Start — Local (developer)
 
-![Workflow](assets/screenshots/agents_working.png)
+1. Backend (Python): create and activate a venv, install requirements, run the API:
+
+```powershell
+python -m venv venv
+venv\Scripts\Activate.ps1   # PowerShell
+pip install -r requirements.txt
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+```
+
+2. Frontend (React + Vite):
+
+```bash
+cd frontend
+npm install
+npm run dev
+# open the output URL (vite prints the local dev server URL)
+```
+
+3. Optional: run both via Docker Compose (builds images then starts containers):
+
+```bash
+docker compose up --build
+```
+
+4. Run tests:
+
+```bash
+pytest -q
+```
 
 ---
 
-## Japan Travel Plan Example
+## Notes & Maintenance
 
-![Japan Trip](assets/screenshots/example_output.png)
+- Archive-first cleanup policy was used for UI components — archived copies are under `frontend/src/components_archived/`.
+- We removed generated frontend caches (`.vite`, `.wrangler`) but kept `frontend/package-lock.json` to preserve reproducible installs.
+- The `venv/` is present locally and contains compiled `.pyc` files — recreate it instead of deleting if you want a fresh environment.
+- If you don't see the favicon in the browser, do a hard refresh (Ctrl+F5) or clear browser cache; the favicon is at `frontend/src/assets/favicon.png`.
 
 ---
 
-## Budget Breakdown
+If you'd like, I can:
 
-![Budget](assets/screenshots/budget_breakdown.png)
+- Run the frontend build and `pytest` here (note: previous automated runs experienced environment restrictions).
+- Remove `frontend/package-lock.json` or `venv/` if you approve.
+- Produce a concise changelog of the archival/deletion operations performed.
 
-# System Architecture
-
-![Architecture](assets/pātheyātrā_ai_architecture.png)
+---
