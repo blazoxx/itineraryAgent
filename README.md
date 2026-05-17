@@ -272,3 +272,7 @@ This project provided hands-on experience with:
 ## Budget Breakdown
 
 ![Budget](assets/screenshots/budget_breakdown.png)
+
+# System Architecture
+
+![Architecture](assets/pātheyātrā_ai_architecture.png)
