@@ -42,9 +42,9 @@ Rules:
 - International trips must include realistic round-trip flight costs from India
 - Domestic Indian trips should prioritize local transport costs
 - International trips should allocate a significant portion to flights and hotels
-- Hotel should usually consume 30–40% of the budget
-- Food should usually consume 15–25%
-- Activities should reflect the user's interests and travel style
+- Hotel should usually consume 20–34% of the budget
+- Food should usually consume 15–20%
+- Activities should realistically reflect ticket prices, nightlife, sightseeing, and entertainment costs must consume 10-20% of the budget.
 - Adventure and nightlife trips may allocate more budget to activities
 - Avoid unrealistic low transport costs
 - Include:
@@ -59,7 +59,6 @@ Rules:
 - Flights should represent major inter-city or international travel costs
 - Transport should represent local commuting costs
 - Do not over-explain
-- Activities should realistically reflect ticket prices, nightlife, sightseeing, and entertainment costs.
 
 Required Format:
 
