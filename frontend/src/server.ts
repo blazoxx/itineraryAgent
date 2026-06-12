@@ -66,15 +66,26 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
+// Handle both Vercel serverless and traditional fetch
+async function handleRequest(request: Request, env?: unknown, ctx?: unknown): Promise<Response> {
+  try {
+    const handler = await getServerEntry();
+    const response = await handler.fetch(request, env, ctx);
+    return await normalizeCatastrophicSsrResponse(response);
+  } catch (error) {
+    console.error(error);
+    return brandedErrorResponse();
+  }
+}
+
+// Export for traditional fetch API (Vercel, Node.js)
 export default {
-  async fetch(request: Request, env: unknown, ctx: unknown) {
-    try {
-      const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
-    } catch (error) {
-      console.error(error);
-      return brandedErrorResponse();
-    }
+  async fetch(request: Request, env?: unknown, ctx?: unknown) {
+    return handleRequest(request, env, ctx);
   },
 };
+
+// Export handler for Vercel serverless
+export async function handler(request: Request, env?: unknown, ctx?: unknown): Promise<Response> {
+  return handleRequest(request, env, ctx);
+}
