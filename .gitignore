@@ -6,3 +6,13 @@ node_modules/
 dist/
 build/
 .vscode/
+
+# Cloudflare artifacts (no longer needed)
+.wrangler/
+wrangler.json
+wrangler.jsonc
+dist/client/wrangler.json
+
+# Vercel
+.vercel/
+*.vercelignore
