@@ -13,21 +13,18 @@ router = APIRouter()
 orchestrator = TravelOrchestrator()
 
 
+@router.post("/")
 @router.post("/generate-plan")
 async def generate_plan(
     request: TravelRequest
 ):
-
     try:
-
         result = await orchestrator.execute(
             request.user_query
         )
-
         return result
 
     except Exception as e:
-
         return {
             "error": str(e)
         }
