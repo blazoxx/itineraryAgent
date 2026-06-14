@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "npm install && npm run build",
   "installCommand": "npm install",
-  "outputDirectory": "frontend/dist",
+  "outputDirectory": "dist",
   "env": {
     "VITE_BACKEND_URL": "https://itineraryagent.onrender.com"
   },
