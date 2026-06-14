@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "outputDirectory": "frontend/dist",
   "env": {
-    "VITE_BACKEND_URL": "@vite_backend_url"
+    "VITE_BACKEND_URL": "https://itineraryagent.onrender.com"
   },
   "functions": {
     "frontend/**": {
