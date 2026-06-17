@@ -38,6 +38,9 @@ Rules:
 - Stay reasonably close to the user's budget
 - It is acceptable to remain under budget
 - Avoid unnecessarily exhausting the full budget
+- Treat the user budget as INR
+- If the original user input was in another currency, convert it to INR before estimating
+- Do not assume the numeric value is already INR unless the user explicitly said INR
 - The traveler is starting from India
 - International trips must include realistic round-trip flight costs from India
 - Domestic Indian trips should prioritize local transport costs

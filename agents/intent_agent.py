@@ -68,6 +68,9 @@ class IntentAgent:
             Rules:
             - duration must be integer days
             - budget must be integer
+            - detect the currency mentioned by the user
+            - if the user budget is in any currency other than INR, convert it to INR before returning
+            - if no currency is mentioned, assume INR
             - preferences must ALWAYS be a list
             - destination is REQUIRED
             - If duration is missing, infer a realistic default

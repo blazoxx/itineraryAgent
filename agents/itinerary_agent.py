@@ -40,6 +40,9 @@ Rules:
 - Avoid impossible timings
 - Match user interests
 - Keep itinerary budget-friendly
+- Treat the budget as INR
+- If the original user request mentioned another currency, mentally convert it to INR before planning
+- Do not reuse the foreign currency amount as-is
 
 Return ONLY valid JSON.
 
