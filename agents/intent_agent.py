@@ -11,6 +11,11 @@ from utils.parser import (
     clean_json_response
 )
 
+from utils.currency import (
+    parse_currency_amount,
+    convert_to_inr,
+)
+
 from services.llm_service import ask_llm
 
 
@@ -89,6 +94,17 @@ class IntentAgent:
         parsed_data = clean_json_response(
             response
         )
+
+        # Detect explicit currency mentions in the user's query and convert
+        # any specified budget to INR so downstream agents receive INR values.
+        amt, curr = parse_currency_amount(user_input)
+        if amt and curr:
+            converted = convert_to_inr(amt, curr)
+            try:
+                # Prefer replacing the budget with the converted INR value
+                parsed_data["budget"] = int(round(converted))
+            except Exception:
+                parsed_data["budget"] = int(round(converted))
 
 
         if not parsed_data.get("destination"):
