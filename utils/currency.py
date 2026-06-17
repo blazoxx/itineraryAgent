@@ -1,6 +1,11 @@
 import re
+import time
+from typing import Optional
+
+import requests
 
 
+# Static fallback rates (per 1 unit -> INR)
 RATES_TO_INR = {
     "USD": 82.0,
     "EUR": 90.0,
@@ -24,7 +29,7 @@ SYMBOL_MAP = {
 }
 
 
-def _normalize_currency(code: str) -> str:
+def _normalize_currency(code: str) -> Optional[str]:
     if not code:
         return None
     code = code.upper().strip()
@@ -49,8 +54,7 @@ def parse_currency_amount(text: str):
         return None, None
 
     # look for symbol first e.g. $1000 or ₹ 5,000
-    # simple regex for symbol+number or number+currency
-    symbol_regex = r"([\$€£₹¥C\$A\$د\.إ])\s?([0-9,]+(?:\.[0-9]+)?)"
+    symbol_regex = r"(\$|€|£|₹|¥|A\$|C\$|د\.إ)\s?([0-9,]+(?:\.[0-9]+)?)"
     m = re.search(symbol_regex, text)
     if m:
         sym = m.group(1)
@@ -77,18 +81,59 @@ def parse_currency_amount(text: str):
     return None, None
 
 
-def convert_to_inr(amount: float, currency: str) -> float:
-    """Convert the given amount from `currency` to INR using static rates.
+# Simple in-memory cache for fetched rates: {("USD","INR"): (rate, timestamp)}
+_RATE_CACHE = {}
+_CACHE_TTL = 60 * 60  # 1 hour
 
-    This uses simple static rates and is meant as a best-effort conversion.
+
+def _fetch_rate_from_api(from_code: str, to_code: str) -> Optional[float]:
+    """Fetch conversion rate from exchangerate.host. Returns multiplier (1 from_code = X to_code)."""
+    try:
+        url = f"https://api.exchangerate.host/convert?from={from_code}&to={to_code}&amount=1"
+        resp = requests.get(url, timeout=5)
+        resp.raise_for_status()
+        data = resp.json()
+        if data and data.get("info") and data["info"].get("rate"):
+            return float(data["info"]["rate"])
+    except Exception:
+        return None
+
+
+def _get_rate(from_code: str, to_code: str) -> float:
+    key = (from_code.upper(), to_code.upper())
+    now = time.time()
+    cached = _RATE_CACHE.get(key)
+    if cached:
+        rate, ts = cached
+        if now - ts < _CACHE_TTL:
+            return rate
+
+    rate = _fetch_rate_from_api(from_code, to_code)
+    if rate:
+        _RATE_CACHE[key] = (rate, now)
+        return rate
+
+    # fallback to static table when possible
+    if to_code.upper() == "INR":
+        static = RATES_TO_INR.get(from_code.upper())
+        if static:
+            return static
+
+    # if no info, return 1.0 (no conversion)
+    return 1.0
+
+
+def convert_to_inr(amount: float, currency: str) -> Optional[float]:
+    """Convert the given amount from `currency` to INR using live rates when available.
+
+    Falls back to static rates if the API call fails.
     """
     if amount is None or currency is None:
         return None
 
-    currency = currency.upper()
-    rate = RATES_TO_INR.get(currency)
-    if rate is None:
-        # unknown currency — assume amount is INR
+    curr = currency.upper()
+    if curr == "INR":
         return float(amount)
 
+    rate = _get_rate(curr, "INR")
     return float(amount) * rate
