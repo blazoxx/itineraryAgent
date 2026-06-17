@@ -991,7 +991,7 @@ function Index() {
           <div className="pt-hero-content">
             <div className="pt-badge">
               <span className="pt-badge-dot" />
-              Cinematic AI Travel Planning
+              AI Travel Planning
             </div>
             <h1 className="pt-title">
               Your perfect <em>journey</em> awaits
@@ -1238,7 +1238,7 @@ function Index() {
                 </span>
               </div>
               <p className="pt-footer-tag">
-                A cinematic, multi-agent travel companion that turns a single
+                A multi-agent travel companion that turns a single
                 sentence into a complete journey — itinerary, weather, budget,
                 and insider tips.
               </p>
