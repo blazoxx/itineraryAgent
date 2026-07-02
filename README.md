@@ -1,4 +1,4 @@
-# Pātheyātrā AI — Multi-Agent Travel Planner
+# Pātheyātrā AI – Multi-Agent Travel Planner
 
 Pātheyātrā AI is an AI-powered multi-agent travel planning system that generates personalized travel itineraries, budget breakdowns, destination insights, and weather information using orchestrated AI agents.
 
@@ -257,13 +257,13 @@ This project provided hands-on experience with:
 - Favicon added and wired to the app: `frontend/src/assets/favicon.png`.
 - Removed build/deploy caches: `.vite/` and `.wrangler/` from the frontend (cleaned).
 - `frontend/package-lock.json` remains in the repo (present). `node_modules/` exists under `frontend/`.
-- A Python virtual environment (`venv/`) exists in the workspace — do not delete unless you want to recreate it.
+- A Python virtual environment (`venv/`) exists in the workspace – do not delete unless you want to recreate it.
 - Docker compose is available (`docker-compose.yml`) for running frontend/backend containers.
 - Tests exist under the `tests/` folder (`pytest`), and example scripts live in `scripts/`.
 
 ---
 
-## Quick Start — Local (developer)
+## Quick Start – Local (developer)
 
 1. Backend (Python): create and activate a venv, install requirements, run the API:
 
@@ -299,9 +299,9 @@ pytest -q
 
 ## Notes & Maintenance
 
-- Archive-first cleanup policy was used for UI components — archived copies are under `frontend/src/components_archived/`.
+- Archive-first cleanup policy was used for UI components – archived copies are under `frontend/src/components_archived/`.
 - We removed generated frontend caches (`.vite`, `.wrangler`) but kept `frontend/package-lock.json` to preserve reproducible installs.
-- The `venv/` is present locally and contains compiled `.pyc` files — recreate it instead of deleting if you want a fresh environment.
+- The `venv/` is present locally and contains compiled `.pyc` files – recreate it instead of deleting if you want a fresh environment.
 - If you don't see the favicon in the browser, do a hard refresh (Ctrl+F5) or clear browser cache; the favicon is at `frontend/src/assets/favicon.png`.
 
 ---

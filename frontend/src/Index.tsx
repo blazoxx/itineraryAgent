@@ -997,7 +997,7 @@ function Index() {
               Your perfect <em>journey</em> awaits
             </h1>
             <p className="pt-subtitle">
-              Describe a dream — a city, a season, a budget. Our multi-agent AI
+              Describe a dream – a city, a season, a budget. Our multi-agent AI
               composes a tailored itinerary, weather brief, budget breakdown,
               and insider tips in seconds.
             </p>
@@ -1239,7 +1239,7 @@ function Index() {
               </div>
               <p className="pt-footer-tag">
                 A multi-agent travel companion that turns a single
-                sentence into a complete journey — itinerary, weather, budget,
+                sentence into a complete journey – itinerary, weather, budget,
                 and insider tips.
               </p>
             </div>
@@ -1412,11 +1412,11 @@ function WeatherSection({ data }: { data: any }) {
   const cards = [
     {
       icon: "🌡",
-      val: w.temperature ?? w.avg_temperature ?? "—",
+      val: w.temperature ?? w.avg_temperature ?? "–",
       key: "Temperature",
     },
-    { icon: "⛅", val: w.condition ?? w.description ?? "—", key: "Condition" },
-    { icon: "💧", val: w.humidity ?? "—", key: "Humidity" },
+    { icon: "⛅", val: w.condition ?? w.description ?? "–", key: "Condition" },
+    { icon: "💧", val: w.humidity ?? "–", key: "Humidity" },
   ];
   if (w.wind_speed || w.wind)
     cards.push({ icon: "💨", val: w.wind_speed ?? w.wind, key: "Wind" });
@@ -1466,7 +1466,7 @@ function AttractionsSection({ data }: { data: any }) {
           const ord = (i + 1).toString().padStart(2, "0");
           return (
             <div key={i} className="pt-attr-card">
-              <div className="pt-attr-num">— {ord}</div>
+              <div className="pt-attr-num">– {ord}</div>
               <div className="pt-attr-name">{name}</div>
               {desc && <div className="pt-attr-desc">{desc}</div>}
             </div>
